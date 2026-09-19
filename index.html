@@ -271,7 +271,7 @@ img { max-width: 100%; }
 /* ── CONTENT ──────────────────────────────────────────*/
 .content {
   padding: 28px;
-  max-width: 980px;
+  max-width: 1180px;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -617,6 +617,19 @@ img { max-width: 100%; }
 .badge-connected { background: var(--green-bg); color: var(--green); }
 .badge-disconnected { background: var(--amber-bg); color: var(--amber); }
 
+
+
+/* ── FINANCE MODULE ───────────────────────────────── */
+#sec-finanzas { width: 100%; }
+.finance-frame {
+  width: 100%;
+  min-height: 1450px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--bg);
+  display: block;
+}
+
 /* ── RESPONSIVE ───────────────────────────────────────*/
 @media (max-width: 900px) {
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
@@ -705,6 +718,9 @@ img { max-width: 100%; }
     <button class="nav-item" data-section="english"><span class="nav-icon">🇬🇧</span> English</button>
     <button class="nav-item" data-section="career"><span class="nav-icon">🚀</span> Career</button>
     <button class="nav-item" data-section="work"><span class="nav-icon">💼</span> Work OS</button>
+
+    <div class="nav-section-label" style="margin-top:10px">Control</div>
+    <button class="nav-item" data-section="finanzas"><span class="nav-icon">💰</span> Finanzas</button>
 
     <div class="nav-section-label" style="margin-top:10px">Reflect</div>
     <button class="nav-item" data-section="review"><span class="nav-icon">🪞</span> End-of-Day</button>
@@ -917,6 +933,1773 @@ img { max-width: 100%; }
       </div>
     </div>
 
+    <!-- FINANZAS -->
+    <div class="section" id="sec-finanzas">
+      <iframe
+        class="finance-frame"
+        id="financeFrame"
+        title="Finanzas Personales · Life OS">
+      </iframe>
+      <template id="financeEmbeddedTemplate">
+<title>Viviana · Finanzas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap">
+
+<style>
+:root {
+  --bg:        #0F1117;
+  --surface:   #1A1D27;
+  --surface2:  #22263A;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.13);
+  --text:      #E2E8F0;
+  --muted:     #7B8299;
+  --muted2:    #A0AAC0;
+  --accent:    #7C5CF6;
+  --accent2:   #9D7FFF;
+  --accent-bg: rgba(124,92,246,0.12);
+  --green:     #22C55E;
+  --green-bg:  rgba(34,197,94,0.1);
+  --amber:     #F59E0B;
+  --amber-bg:  rgba(245,158,11,0.1);
+  --red:       #EF4444;
+  --red-bg:    rgba(239,68,68,0.1);
+  --blue:      #38BDF8;
+  --blue-bg:   rgba(56,189,248,0.1);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg:        #F0F2F8;
+    --surface:   #FFFFFF;
+    --surface2:  #F5F7FF;
+    --border:    rgba(0,0,0,0.07);
+    --border2:   rgba(0,0,0,0.13);
+    --text:      #12172B;
+    --muted:     #6B738F;
+    --muted2:    #4A5270;
+    --accent-bg: rgba(124,92,246,0.08);
+    --green-bg:  rgba(34,197,94,0.08);
+    --amber-bg:  rgba(245,158,11,0.08);
+    --red-bg:    rgba(239,68,68,0.08);
+    --blue-bg:   rgba(56,189,248,0.08);
+  }
+}
+:root[data-theme="light"] {
+  --bg:        #F0F2F8;
+  --surface:   #FFFFFF;
+  --surface2:  #F5F7FF;
+  --border:    rgba(0,0,0,0.07);
+  --border2:   rgba(0,0,0,0.13);
+  --text:      #12172B;
+  --muted:     #6B738F;
+  --muted2:    #4A5270;
+  --accent-bg: rgba(124,92,246,0.08);
+  --green-bg:  rgba(34,197,94,0.08);
+  --amber-bg:  rgba(245,158,11,0.08);
+  --red-bg:    rgba(239,68,68,0.08);
+  --blue-bg:   rgba(56,189,248,0.08);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 0 16px 48px;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent2);
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.page-subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+.header-actions { display: flex; gap: 10px; align-items: center; }
+
+.btn {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .15s;
+  border: none;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { opacity: .85; }
+.btn-ghost { background: var(--surface2); color: var(--muted2); border: 1px solid var(--border2); }
+.btn-ghost:hover { color: var(--text); }
+.btn-sm { padding: 5px 10px; font-size: 11px; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { opacity: .85; }
+
+/* ── KPI ROW ─────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 16px 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--kpi-color, var(--accent));
+}
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.kpi-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  color: var(--kpi-color, var(--text));
+}
+
+.kpi-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* ── CARD ────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.card-title {
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.card-desc { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+
+/* ── TWO / THREE COL ─────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
+.col-6040 { display: grid; grid-template-columns: 1.4fr 1fr; gap: 20px; }
+
+/* ── TABLE ───────────────────────────────────────────── */
+.fin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+.fin-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 10px 10px;
+  border-bottom: 1px solid var(--border2);
+}
+
+.fin-table th:last-child, .fin-table td:last-child { text-align: right; }
+
+.fin-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.fin-table tr:last-child td { border-bottom: none; }
+.fin-table tr:hover td { background: var(--surface2); }
+
+.fin-table tfoot td {
+  font-weight: 700;
+  border-top: 1px solid var(--border2);
+  padding-top: 12px;
+  color: var(--text);
+}
+
+/* ── BADGE ───────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  padding: 2px 8px; border-radius: 20px;
+  font-size: 10px; font-weight: 600;
+}
+.badge-red    { background: var(--red-bg);    color: var(--red); }
+.badge-amber  { background: var(--amber-bg);  color: var(--amber); }
+.badge-green  { background: var(--green-bg);  color: var(--green); }
+.badge-blue   { background: var(--blue-bg);   color: var(--blue); }
+.badge-accent { background: var(--accent-bg); color: var(--accent2); }
+
+/* ── PROGRESS BAR ────────────────────────────────────── */
+.prog-wrap {
+  height: 5px;
+  background: var(--surface2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.prog-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width .4s;
+}
+
+/* ── DEBT CARD ───────────────────────────────────────── */
+.debt-list { display: flex; flex-direction: column; gap: 10px; }
+
+.debt-item {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.debt-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.debt-name { font-size: 13px; font-weight: 600; }
+.debt-rate { font-size: 11px; color: var(--red); font-weight: 600; }
+
+.debt-amounts {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.debt-balance {
+  font-family: 'Sora', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── DEBT PAYMENT FORM ───────────────────────────────── */
+.debt-pay-btn {
+  margin-top: 10px;
+  width: 100%;
+  background: var(--accent-bg);
+  color: var(--accent2);
+  border: 1px solid rgba(124,92,246,0.25);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .15s;
+  text-align: left;
+}
+.debt-pay-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.debt-pay-form {
+  display: none;
+  margin-top: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 12px;
+}
+.debt-pay-form.open { display: block; }
+
+.debt-pay-form label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+.debt-pay-form label:first-child { margin-top: 0; }
+
+.debt-pay-form input {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 7px;
+  padding: 8px 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+}
+.debt-pay-form input:focus { outline: none; border-color: var(--accent); }
+
+.debt-pay-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.debt-history {
+  margin-top: 10px;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+}
+.debt-history-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 6px;
+}
+.debt-history-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  gap: 8px;
+}
+.debt-history-row:last-child { border-bottom: none; }
+.debt-history-date { color: var(--muted); flex-shrink: 0; }
+.debt-history-amt { font-weight: 600; color: var(--green); font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.debt-history-note { color: var(--muted2); flex: 1; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ── FLUJO CHART ─────────────────────────────────────── */
+.flow-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.flow-row:last-child { border-bottom: none; }
+.flow-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.flow-label { flex: 1; }
+.flow-amount { font-variant-numeric: tabular-nums; font-weight: 600; }
+
+/* ── GASTOS HORMIGA ─────────────────────────────────── */
+.ant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.ant-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+}
+
+.ant-icon { font-size: 16px; }
+.ant-info { flex: 1; }
+.ant-name { font-size: 12px; font-weight: 500; }
+.ant-freq { font-size: 10px; color: var(--muted); }
+.ant-amount { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--amber); }
+
+/* ── ESTRATEGIA ─────────────────────────────────────── */
+.strategy-steps { display: flex; flex-direction: column; gap: 10px; }
+
+.step {
+  display: flex;
+  gap: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  align-items: flex-start;
+}
+
+.step-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--accent-bg);
+  color: var(--accent2);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+.step-body { font-size: 12px; color: var(--muted2); line-height: 1.5; }
+
+/* ── ALERT BOX ──────────────────────────────────────── */
+.alert {
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.alert-red { background: var(--red-bg); border: 1px solid rgba(239,68,68,0.2); color: var(--text); }
+.alert-green { background: var(--green-bg); border: 1px solid rgba(34,197,94,0.2); }
+.alert-amber { background: var(--amber-bg); border: 1px solid rgba(245,158,11,0.2); }
+.alert-icon { font-size: 18px; }
+
+/* ── GASTOS DIARIOS ─────────────────────────────────── */
+.daily-input-row {
+  display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;
+}
+
+.daily-input-row input, .daily-input-row select {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  flex: 1;
+  min-width: 120px;
+}
+
+.daily-input-row input:focus, .daily-input-row select:focus {
+  outline: none; border-color: var(--accent);
+}
+
+.daily-input-row select option { background: var(--surface); }
+
+.expense-list { display: flex; flex-direction: column; gap: 6px; max-height: 280px; overflow-y: auto; }
+
+.expense-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.expense-cat { flex-shrink: 0; }
+.expense-desc { flex: 1; color: var(--muted2); }
+.expense-amount { font-weight: 600; font-variant-numeric: tabular-nums; }
+.expense-del {
+  background: none; border: none;
+  color: var(--muted); cursor: pointer;
+  font-size: 14px; padding: 0 2px;
+  transition: color .15s;
+}
+.expense-del:hover { color: var(--red); }
+
+.daily-summary {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--border2);
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+/* ── TABS ────────────────────────────────────────────── */
+.tabs { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+
+.tab {
+  padding: 7px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: var(--surface2);
+  color: var(--muted2);
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all .15s;
+}
+
+.tab:hover { color: var(--text); border-color: var(--accent); }
+.tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── DONUT CHART ─────────────────────────────────────── */
+.chart-wrap { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.donut-svg { flex-shrink: 0; }
+.legend { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 160px; }
+.legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-label { flex: 1; color: var(--muted2); }
+.legend-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ── FIXED EXPENSES PAID ─────────────────────────────── */
+.fixed-paid-row td { transition: opacity .2s; }
+.fixed-paid-row.paid td { opacity: 0.6; }
+.fixed-paid-row.paid td:first-child { color: var(--green); }
+.paid-checkbox {
+  width: 16px; height: 16px; cursor: pointer; accent-color: var(--green);
+}
+.fixed-progress-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 14px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+.fixed-progress-label { color: var(--muted2); flex-shrink: 0; }
+.fixed-progress-count { font-weight: 700; color: var(--green); flex-shrink: 0; }
+.fixed-prog-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.fixed-prog-fill {
+  height: 100%;
+  background: var(--green);
+  border-radius: 10px;
+  transition: width .4s;
+}
+
+/* ── PAGOS TAB ───────────────────────────────────────── */
+.pagos-total {
+  background: var(--green-bg);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.pagos-total-label { font-size: 13px; color: var(--muted2); }
+.pagos-total-value {
+  font-family: 'Sora', sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+.pagos-total-month { font-size: 11px; color: var(--muted); }
+
+.pagos-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.pagos-table th {
+  text-align: left;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0 10px 10px;
+  border-bottom: 1px solid var(--border2);
+}
+.pagos-table td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.pagos-table tr:last-child td { border-bottom: none; }
+.pagos-table tr:hover td { background: var(--surface2); }
+.pagos-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .kpi-row { grid-template-columns: repeat(3, 1fr); }
+  .col-6040, .two-col { grid-template-columns: 1fr; }
+  .three-col { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .kpi-row { grid-template-columns: 1fr 1fr; }
+  .three-col { grid-template-columns: 1fr; }
+  .ant-grid { grid-template-columns: 1fr; }
+}
+
+/* ── TOAST ───────────────────────────────────────────── */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 13px; font-weight: 500;
+  z-index: 999;
+  transition: transform .25s;
+  box-shadow: 0 8px 32px rgba(0,0,0,.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.ok { border-color: var(--green); color: var(--green); }
+</style>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">Life OS · Módulo</div>
+      <div class="page-title">💰 Finanzas Personales</div>
+      <div class="page-subtitle">Septiembre 2026 · Control financiero completo</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" id="themeBtn">🌙</button>
+      <button class="btn btn-ghost" id="loadSheetsBtn">↻ Cargar desde Sheets</button>
+      <button class="btn btn-primary" id="syncSheetsBtn">☁️ Guardar en Sheets</button>
+    </div>
+  </div>
+
+  <!-- ALERT -->
+  <div class="alert alert-amber">
+    <div class="alert-icon">⚠️</div>
+    <div>
+      <strong>Situación de deuda activa:</strong> Tienes $44,251,000 en deudas con tasas entre 24.75% y 25.5% EA. Tu flujo libre después de gastos fijos es $4,056,500/mes. Con la estrategia avalancha podrías estar libre de deudas en <strong>~18–22 meses</strong> destinando todo el excedente a pago de deuda.
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="kpi-row">
+    <div class="kpi" style="--kpi-color:var(--green)">
+      <div class="kpi-label">Ingresos</div>
+      <div class="kpi-value" id="finKpiIncome">$7.62M</div>
+      <div class="kpi-sub">/ mes</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--amber)">
+      <div class="kpi-label">Gastos fijos</div>
+      <div class="kpi-value" id="finKpiFixed">$3.57M</div>
+      <div class="kpi-sub">46.8% del ingreso</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--blue)">
+      <div class="kpi-label">Flujo libre</div>
+      <div class="kpi-value" id="finKpiFree">$4.06M</div>
+      <div class="kpi-sub">antes de deuda</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--red)">
+      <div class="kpi-label">Total deuda</div>
+      <div class="kpi-value" id="finKpiDebt">$44.25M</div>
+      <div class="kpi-sub">5.8× ingreso mensual</div>
+    </div>
+    <div class="kpi" style="--kpi-color:var(--accent2)">
+      <div class="kpi-label">Cuota mínima</div>
+      <div class="kpi-value" id="finKpiMin">$608K</div>
+      <div class="kpi-sub">suma de mínimos</div>
+    </div>
+  </div>
+
+  <!-- TABS PRINCIPALES -->
+  <div>
+    <div class="tabs">
+      <button class="tab active" data-tab="resumen">📊 Resumen</button>
+      <button class="tab" data-tab="deudas">💳 Deudas</button>
+      <button class="tab" data-tab="gastos-fijos">🏠 Gastos Fijos</button>
+      <button class="tab" data-tab="diarios">🧾 Gastos del Día</button>
+      <button class="tab" data-tab="hormiga">🐜 Gastos Hormiga</button>
+      <button class="tab" data-tab="estrategia">🎯 Estrategia</button>
+      <button class="tab" data-tab="pagos">📋 Pagos</button>
+    </div>
+
+    <!-- ═══ RESUMEN ═══ -->
+    <div class="tab-panel active" id="tab-resumen">
+      <div class="col-6040">
+
+        <!-- Flujo de caja -->
+        <div class="card">
+          <div class="card-title">Flujo de Caja Mensual</div>
+          <div class="card-desc">Distribución de tu ingreso de $7,623,000</div>
+
+          <!-- Donut visual -->
+          <div class="chart-wrap" style="margin-bottom:16px">
+            <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+              <!-- Gastos fijos 46.8% -->
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#F59E0B" stroke-width="16"
+                stroke-dasharray="135.7 157.1" stroke-dashoffset="0" transform="rotate(-90 60 60)"/>
+              <!-- Cuotas deuda 8% -->
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#EF4444" stroke-width="16"
+                stroke-dasharray="23.2 157.1" stroke-dashoffset="-135.7" transform="rotate(-90 60 60)"/>
+              <!-- Hormiga est. 5% -->
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#F97316" stroke-width="16"
+                stroke-dasharray="14.5 157.1" stroke-dashoffset="-158.9" transform="rotate(-90 60 60)"/>
+              <!-- Disponible 40.2% -->
+              <circle cx="60" cy="60" r="46" fill="none" stroke="#22C55E" stroke-width="16"
+                stroke-dasharray="116.5 157.1" stroke-dashoffset="-173.4" transform="rotate(-90 60 60)"/>
+              <text x="60" y="55" text-anchor="middle" fill="var(--text)" font-family="Sora,sans-serif" font-size="13" font-weight="700">100%</text>
+              <text x="60" y="70" text-anchor="middle" fill="var(--muted)" font-family="Inter,sans-serif" font-size="9">ingreso</text>
+            </svg>
+            <div class="legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div><div class="legend-label">Gastos fijos</div><div class="legend-val">$3,567K</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div><div class="legend-label">Cuotas deuda</div><div class="legend-val">$608K</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#F97316"></div><div class="legend-label">Hormiga est.</div><div class="legend-val">~$380K</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#22C55E"></div><div class="legend-label">Disponible real</div><div class="legend-val">$3,068K</div></div>
+            </div>
+          </div>
+
+          <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-label">Salario</div><div class="flow-amount" style="color:var(--green)">+$7,298,000</div></div>
+          <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-label">Aporte papá</div><div class="flow-amount" style="color:var(--green)">+$125,000</div></div>
+          <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-label">Otros ingresos</div><div class="flow-amount" style="color:var(--green)">+$200,000</div></div>
+          <div class="flow-row"><div class="flow-dot" style="background:var(--amber)"></div><div class="flow-label">Gastos fijos</div><div class="flow-amount" style="color:var(--amber)">−$3,566,500</div></div>
+          <div class="flow-row"><div class="flow-dot" style="background:var(--red)"></div><div class="flow-label">Cuotas mínimas deuda</div><div class="flow-amount" style="color:var(--red)">−$608,111</div></div>
+          <div class="flow-row"><div class="flow-dot" style="background:var(--orange,#F97316)"></div><div class="flow-label">Gastos hormiga estimados</div><div class="flow-amount" style="color:#F97316">−$380,000</div></div>
+          <div class="flow-row" style="font-weight:700"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-label">Flujo real disponible</div><div class="flow-amount" style="color:var(--blue)">$3,068,389</div></div>
+        </div>
+
+        <!-- Salud financiera -->
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Salud Financiera</div>
+            <div class="card-desc">Indicadores clave</div>
+
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                  <span style="color:var(--muted)">Ratio deuda/ingreso</span>
+                  <span style="color:var(--red);font-weight:700">580% <span style="font-size:10px;font-weight:400">(alto)</span></span>
+                </div>
+                <div class="prog-wrap"><div class="prog-fill" style="width:100%;background:var(--red)"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                  <span style="color:var(--muted)">Gastos vs ingreso</span>
+                  <span style="color:var(--amber);font-weight:700">46.8% <span style="font-size:10px;font-weight:400">(controlable)</span></span>
+                </div>
+                <div class="prog-wrap"><div class="prog-fill" style="width:46.8%;background:var(--amber)"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                  <span style="color:var(--muted)">Cuotas vs ingreso</span>
+                  <span style="color:var(--amber);font-weight:700">8% <span style="font-size:10px;font-weight:400">(aceptable)</span></span>
+                </div>
+                <div class="prog-wrap"><div class="prog-fill" style="width:8%;background:var(--green)"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                  <span style="color:var(--muted)">Capacidad de ahorro/pago</span>
+                  <span style="color:var(--green);font-weight:700">40% <span style="font-size:10px;font-weight:400">(bueno)</span></span>
+                </div>
+                <div class="prog-wrap"><div class="prog-fill" style="width:40%;background:var(--green)"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Meta de emergencia</div>
+            <div class="card-desc">Fondo = 3× gastos fijos mínimos</div>
+            <div style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--accent2);margin:8px 0">$10,699,500</div>
+            <div style="font-size:12px;color:var(--muted)">Construir <strong style="color:var(--text)">después</strong> de pagar deudas más caras. Empezar con $500K/mes al fondo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ DEUDAS ═══ -->
+    <div class="tab-panel" id="tab-deudas">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Detalle de Deudas</div>
+          <div class="card-desc">Ordenadas por estrategia avalancha (mayor tasa primero)</div>
+          <div class="debt-list" id="debtList"></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Comparativa de deudas</div>
+            <div class="card-desc">Saldo vs cuota mínima mensual</div>
+            <table class="fin-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th style="text-align:right">Saldo</th>
+                  <th style="text-align:right">Cuota</th>
+                  <th style="text-align:right">Tasa</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Scotiabank IL</td><td style="text-align:right;font-variant-numeric:tabular-nums">$15,051,000</td><td style="text-align:right;color:var(--red);font-variant-numeric:tabular-nums">$400,000</td><td style="text-align:right"><span class="badge badge-red">24.75%</span></td></tr>
+                <tr><td>Visa Bancolombia</td><td style="text-align:right;font-variant-numeric:tabular-nums">$10,300,000</td><td style="text-align:right;color:var(--red);font-variant-numeric:tabular-nums">$194,398</td><td style="text-align:right"><span class="badge badge-red">25.5%</span></td></tr>
+                <tr><td>Davivienda</td><td style="text-align:right;font-variant-numeric:tabular-nums">$10,400,000</td><td style="text-align:right;color:var(--red);font-variant-numeric:tabular-nums">$222,562</td><td style="text-align:right"><span class="badge badge-red">24.75%</span></td></tr>
+                <tr><td>Master Bancolombia</td><td style="text-align:right;font-variant-numeric:tabular-nums">$5,650,000</td><td style="text-align:right;color:var(--amber);font-variant-numeric:tabular-nums">$112,878</td><td style="text-align:right"><span class="badge badge-red">25.5%</span></td></tr>
+                <tr><td>Nu</td><td style="text-align:right;font-variant-numeric:tabular-nums">$2,850,000</td><td style="text-align:right;color:var(--green);font-variant-numeric:tabular-nums">$78,272</td><td style="text-align:right"><span class="badge badge-red">25.5%</span></td></tr>
+              </tbody>
+              <tfoot>
+                <tr><td>TOTAL</td><td style="text-align:right;color:var(--red)">$44,251,000</td><td style="text-align:right;color:var(--red)">$608,110</td><td></td></tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Costo anual de la deuda</div>
+            <div class="card-desc">Intereses que pagas si solo abones mínimos</div>
+            <div style="font-family:'Sora',sans-serif;font-size:28px;font-weight:700;color:var(--red);margin:8px 0">~$10,978,000</div>
+            <div style="font-size:12px;color:var(--muted);line-height:1.6">Equivale a <strong style="color:var(--text)">1.44 salarios mensuales</strong> perdidos en intereses cada año. Cada mes que no atacas la deuda te cuesta ~$915,000 en intereses.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GASTOS FIJOS ═══ -->
+    <div class="tab-panel" id="tab-gastos-fijos">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Gastos Fijos Mensuales</div>
+          <div class="card-desc">$3,566,500 · 46.8% del ingreso</div>
+          <!-- Progress indicator -->
+          <div class="fixed-progress-bar" id="fixedProgressBar">
+            <span class="fixed-progress-label">Pagados este mes:</span>
+            <span class="fixed-progress-count" id="fixedPaidCount">0 / 16</span>
+            <div class="fixed-prog-wrap">
+              <div class="fixed-prog-fill" id="fixedProgFill" style="width:0%"></div>
+            </div>
+          </div>
+          <table class="fin-table">
+            <thead><tr><th>Concepto</th><th>Día</th><th style="text-align:right">Valor</th><th style="text-align:right">%</th><th style="text-align:center">Pagado</th></tr></thead>
+            <tbody id="fixedExpTable"></tbody>
+            <tfoot><tr><td colspan="2">TOTAL</td><td style="text-align:right;color:var(--amber)">$3,566,500</td><td style="text-align:right;color:var(--muted)">46.8%</td><td></td></tr></tfoot>
+          </table>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Oportunidades de ahorro</div>
+            <div class="card-desc">Gastos fijos que podrías optimizar</div>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="alert alert-amber">
+                <div class="alert-icon">💡</div>
+                <div><strong>Suscripciones digitales:</strong> GPT + Apple + Spotify + Google = $156,500/mes ($1,878,000/año). Evalúa cuáles usas realmente.</div>
+              </div>
+              <div class="alert alert-amber">
+                <div class="alert-icon">⚡</div>
+                <div><strong>ENEL $350,000:</strong> Es el gasto más alto de servicios. Un plan de reducción de consumo podría bajar hasta $80,000/mes.</div>
+              </div>
+              <div class="alert alert-green">
+                <div class="alert-icon">✅</div>
+                <div><strong>Maestría $0:</strong> Excelente. Si hay financiación disponible para el semestre próximo, planifícala.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Distribución por categoría</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Hogar (servicios)</span><span>$570,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:16%;background:var(--blue)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Alimentación/aseo</span><span>$300,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:8.4%;background:var(--green)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Suscripciones digitales</span><span>$156,500</span></div><div class="prog-wrap"><div class="prog-fill" style="width:4.4%;background:var(--accent)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Transporte/oficina</span><span>$300,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:8.4%;background:var(--amber)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Inglés TOEFL</span><span>$800,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:22.4%;background:#A78BFA)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Prestaciones/deuda soc.</span><span>$900,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:25.2%;background:var(--red)"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span style="color:var(--muted)">Otros variables</span><span>$540,000</span></div><div class="prog-wrap"><div class="prog-fill" style="width:15.1%;background:var(--muted)"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GASTOS DIARIOS ═══ -->
+    <div class="tab-panel" id="tab-diarios">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Registrar gasto de hoy</div>
+          <div class="card-desc" id="dailyDateLabel"></div>
+
+          <div class="daily-input-row">
+            <select id="expCat">
+              <option value="🍔">🍔 Comida</option>
+              <option value="🚌">🚌 Transporte</option>
+              <option value="☕">☕ Café/snack</option>
+              <option value="🛒">🛒 Mercado</option>
+              <option value="👗">👗 Ropa</option>
+              <option value="💄">💄 Belleza</option>
+              <option value="🏥">🏥 Salud</option>
+              <option value="🎬">🎬 Entretenimiento</option>
+              <option value="📦">📦 Otros</option>
+            </select>
+            <input type="text" id="expDesc" placeholder="Descripción">
+            <input type="number" id="expAmt" placeholder="$" min="0">
+            <button class="btn btn-primary" id="addExpBtn">+ Agregar</button>
+          </div>
+
+          <div class="expense-list" id="expenseList"></div>
+
+          <div class="daily-summary">
+            <span style="color:var(--muted)">Total del día</span>
+            <span style="font-family:'Sora',sans-serif;font-size:18px;font-weight:700;color:var(--red)" id="dailyTotal">$0</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Presupuesto diario sugerido</div>
+            <div class="card-desc">Basado en tu flujo libre disponible</div>
+            <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+                <span style="color:var(--muted)">Flujo libre mensual</span>
+                <span style="font-weight:600">$3,068,389</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+                <span style="color:var(--muted)">Si destinas 50% a deuda</span>
+                <span style="color:var(--red);font-weight:600">−$1,534,194</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:13px">
+                <span style="color:var(--muted)">Disponible para gastos diarios</span>
+                <span style="font-weight:600">$1,534,195</span>
+              </div>
+              <div style="border-top:1px solid var(--border2);padding-top:12px;display:flex;justify-content:space-between;align-items:center">
+                <span style="color:var(--muted2);font-weight:600">Tope diario</span>
+                <span style="font-family:'Sora',sans-serif;font-size:22px;font-weight:700;color:var(--green)">$51,140</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Historial reciente</div>
+            <div class="card-desc">Últimos 7 días registrados</div>
+            <div id="weekHistory" style="display:flex;flex-direction:column;gap:6px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ GASTOS HORMIGA ═══ -->
+    <div class="tab-panel" id="tab-hormiga">
+      <div class="card" style="margin-bottom:16px">
+        <div class="card-title">¿Qué son los gastos hormiga?</div>
+        <div class="card-desc">Pequeños gastos recurrentes que individualmente parecen insignificantes pero sumados erosionan tu presupuesto</div>
+        <div class="alert alert-red" style="margin-top:10px">
+          <div class="alert-icon">🐜</div>
+          <div>Los gastos hormiga típicos representan entre el <strong>10–15% del ingreso</strong>. En tu caso eso sería <strong>$762,300 – $1,143,450/mes</strong> que podrías estar perdiendo sin darte cuenta.</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Gastos hormiga identificados</div>
+          <div class="card-desc">Estimados comunes — edita con tus reales</div>
+          <div class="ant-grid" id="antGrid"></div>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border2);display:flex;justify-content:space-between;align-items:center">
+            <span style="font-size:13px;color:var(--muted)">Total estimado mensual</span>
+            <span style="font-family:'Sora',sans-serif;font-size:20px;font-weight:700;color:var(--amber)" id="antTotal">$0</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div class="card">
+            <div class="card-title">Agregar gasto hormiga</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <input class="field-input-s" id="antName" placeholder="Nombre (ej: café de la máquina)">
+              <div style="display:flex;gap:8px">
+                <input class="field-input-s" id="antAmt" type="number" placeholder="Valor unitario $">
+                <input class="field-input-s" id="antFreq" type="number" placeholder="Veces al mes">
+              </div>
+              <button class="btn btn-primary" id="addAntBtn">+ Agregar hormiga</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Impacto anualizado</div>
+            <div class="card-desc">Si eliminas solo el 50% de hormiga</div>
+            <div style="font-family:'Sora',sans-serif;font-size:26px;font-weight:700;color:var(--green);margin:8px 0" id="antSaving">$2,280,000</div>
+            <div style="font-size:12px;color:var(--muted)">Ese dinero aplicado a deuda puede <strong style="color:var(--text)">reducir 5 meses</strong> el tiempo de pago.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Regla del café ☕</div>
+            <div style="font-size:12.5px;color:var(--muted2);line-height:1.6">Un café fuera de casa cada día = $3,000 × 22 días = <strong style="color:var(--amber)">$66,000/mes = $792,000/año</strong>. Multiplicado por todos tus pequeños gastos, el efecto es enorme.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ESTRATEGIA ═══ -->
+    <div class="tab-panel" id="tab-estrategia">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">🎯 Estrategia Avalancha de Deudas</div>
+          <div class="card-desc">Paga mínimos en todas y enfoca el excedente en la de mayor tasa. Ahorra ~40% más en intereses vs método bola de nieve.</div>
+
+          <div class="strategy-steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div>
+                <div class="step-title">Nu — $2,850,000 · 25.5%</div>
+                <div class="step-body">La más pequeña con tasa alta. Con $1,534,000 extra/mes se paga en <strong>~2 meses</strong>. Liberará $78,272/mes para reinvertir.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div>
+                <div class="step-title">Master Bancolombia — $5,650,000 · 25.5%</div>
+                <div class="step-body">Con el excedente acumulado (~$1,612,272) se paga en <strong>~4 meses</strong> adicionales. Total acumulado: 6 meses.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div>
+                <div class="step-title">Visa Bancolombia — $10,300,000 · 25.5%</div>
+                <div class="step-body">Con excedente de ~$1,725,150. Aproximadamente <strong>6 meses</strong> adicionales. Total acumulado: 12 meses.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div>
+                <div class="step-title">Davivienda — $10,400,000 · 24.75%</div>
+                <div class="step-body">Con excedente de ~$1,919,548. Aproximadamente <strong>5–6 meses</strong>. Total acumulado: ~18 meses.</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">5</div>
+              <div>
+                <div class="step-title">Scotiabank — $15,051,000 · 24.75%</div>
+                <div class="step-body">Con todo el excedente acumulado se liquida en los últimos <strong>4–5 meses</strong>. <strong>Total libre de deudas: ~22 meses.</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="card">
+            <div class="card-title">Plan mensual de pago</div>
+            <div class="card-desc">Distribución sugerida de tu excedente</div>
+            <table class="fin-table">
+              <thead><tr><th>Destino</th><th style="text-align:right">Monto</th><th style="text-align:right">%</th></tr></thead>
+              <tbody>
+                <tr><td>Cuotas mínimas todas</td><td style="text-align:right;font-variant-numeric:tabular-nums">$608,110</td><td style="text-align:right;color:var(--muted)">8%</td></tr>
+                <tr><td>Abono extra deuda #1</td><td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--accent2)">$1,534,194</td><td style="text-align:right;color:var(--accent2)">20%</td></tr>
+                <tr><td>Fondo emergencia</td><td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--blue)">$500,000</td><td style="text-align:right;color:var(--blue)">6.6%</td></tr>
+                <tr><td>Gastos personales</td><td style="text-align:right;font-variant-numeric:tabular-nums">$534,195</td><td style="text-align:right;color:var(--muted)">7%</td></tr>
+              </tbody>
+              <tfoot><tr><td>TOTAL</td><td style="text-align:right">$3,176,499</td><td style="text-align:right;color:var(--muted)">41.6%</td></tr></tfoot>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Reglas de oro</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px">
+              <div class="alert alert-green" style="padding:10px 12px">
+                <div class="alert-icon" style="font-size:14px">✅</div>
+                <div style="font-size:12px">No uses tarjetas de crédito para gastos del día a día mientras tienes deuda.</div>
+              </div>
+              <div class="alert alert-green" style="padding:10px 12px">
+                <div class="alert-icon" style="font-size:14px">✅</div>
+                <div style="font-size:12px">Automatiza el abono extra el mismo día que recibes el salario.</div>
+              </div>
+              <div class="alert alert-amber" style="padding:10px 12px">
+                <div class="alert-icon" style="font-size:14px">⚡</div>
+                <div style="font-size:12px">Cualquier ingreso extra (bonos, ventas, regalos) va directo al 100% a deuda #1.</div>
+              </div>
+              <div class="alert alert-amber" style="padding:10px 12px">
+                <div class="alert-icon" style="font-size:14px">📅</div>
+                <div style="font-size:12px">Revisa este dashboard cada domingo en tu bloque de planificación.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PAGOS ═══ -->
+    <div class="tab-panel" id="tab-pagos">
+      <div class="card">
+        <div class="card-title">📋 Historial de Pagos</div>
+        <div class="card-desc">Registro cronológico de todos los pagos — deudas y gastos fijos</div>
+
+        <div class="pagos-total" id="pagosTotalBlock">
+          <div>
+            <div class="pagos-total-label">Total pagado este mes</div>
+            <div class="pagos-total-month" id="pagosTotalMonth"></div>
+          </div>
+          <div class="pagos-total-value" id="pagosTotalValue">$0</div>
+        </div>
+
+        <div id="pagosTableWrap">
+          <div class="pagos-empty" id="pagosEmpty">No hay pagos registrados aún.</div>
+          <table class="pagos-table" id="pagosTable" style="display:none">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Nombre</th>
+                <th style="text-align:right">Monto</th>
+                <th>Nota</th>
+              </tr>
+            </thead>
+            <tbody id="pagosTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div><!-- /page -->
+
+<div class="toast" id="toast"></div>
+
+<style>
+.field-input-s {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+}
+.field-input-s:focus { outline: none; border-color: var(--accent); }
+</style>
+
+<script>
+/* ══ HELPERS ══════════════════════════════════════════ */
+function store(k,v){try{localStorage.setItem('fin_'+k,v)}catch(_){}}
+function load(k,d=null){try{return localStorage.getItem('fin_'+k)??d}catch(_){return d}}
+function fmt(n){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(n)}
+function dateKeyFor(d=new Date()){
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Bogota',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(d);
+  const obj=Object.fromEntries(parts.map(p=>[p.type,p.value]));
+  return `${obj.year}-${obj.month}-${obj.day}`;
+}
+function today(){return dateKeyFor(new Date())}
+function yearMonth(){return today().slice(0,7)}
+
+/* ══ THEME ════════════════════════════════════════════ */
+const root=document.documentElement;
+let theme=load('theme','dark');
+function applyTheme(t){theme=t;root.setAttribute('data-theme',t);document.getElementById('themeBtn').textContent=t==='dark'?'☀️':'🌙';store('theme',t);}
+applyTheme(theme);
+document.getElementById('themeBtn').addEventListener('click',()=>applyTheme(theme==='dark'?'light':'dark'));
+
+/* ══ TABS ═════════════════════════════════════════════ */
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+    if(btn.dataset.tab==='pagos') renderPagos();
+  });
+});
+
+/* ══ DEBT PAYMENTS ════════════════════════════════════ */
+const DEBTS=[
+  {name:'Scotiabank Libre Inversión',rate:'24.75%',cuota:400000,saldo:15051000,color:'#EF4444'},
+  {name:'Visa Bancolombia',rate:'25.5%',cuota:194398,saldo:10300000,color:'#F97316'},
+  {name:'Davivienda',rate:'24.75%',cuota:222562,saldo:10400000,color:'#F59E0B'},
+  {name:'Master Bancolombia',rate:'25.5%',cuota:112878,saldo:5650000,color:'#A78BFA'},
+  {name:'Nu',rate:'25.5%',cuota:78272,saldo:2850000,color:'#38BDF8'},
+];
+
+function getDebtPayments(){
+  try{return JSON.parse(load('debt_payments','[]'))||[];}catch(_){return[];}
+}
+function saveDebtPayments(arr){store('debt_payments',JSON.stringify(arr));}
+
+function getDebtSaldo(idx){
+  const d=DEBTS[idx];
+  const all=getDebtPayments();
+  const paid=all.filter(p=>p.debtIndex===idx).reduce((s,p)=>s+Number(p.monto),0);
+  const saved=Number(load('debt_saldo_'+idx, d.saldo));
+  // Use original saldo minus all payments sum
+  return Math.max(0, d.saldo - paid);
+}
+
+function renderDebts(){
+  const dl=document.getElementById('debtList');
+  dl.innerHTML='';
+  const maxSaldo=Math.max(...DEBTS.map(d=>d.saldo));
+  DEBTS.forEach((d,idx)=>{
+    const currentSaldo=getDebtSaldo(idx);
+    const pct=Math.round(currentSaldo/maxSaldo*100);
+    const allPays=getDebtPayments().filter(p=>p.debtIndex===idx);
+    const last3=allPays.slice(-3).reverse();
+
+    const item=document.createElement('div');
+    item.className='debt-item';
+
+    // History HTML
+    let histHTML='';
+    if(last3.length>0){
+      histHTML=`<div class="debt-history">
+        <div class="debt-history-title">✅ Últimos pagos</div>
+        ${last3.map(p=>`
+          <div class="debt-history-row">
+            <span class="debt-history-date">${p.date}</span>
+            <span class="debt-history-amt">${fmt(Number(p.monto))}</span>
+            <span class="debt-history-note">${p.nota||''}</span>
+          </div>`).join('')}
+      </div>`;
+    }
+
+    item.innerHTML=`
+      <div class="debt-top">
+        <div class="debt-name">${d.name}</div>
+        <div class="debt-rate">${d.rate} EA</div>
+      </div>
+      <div class="debt-balance">${fmt(currentSaldo)}</div>
+      <div class="debt-amounts"><span>Cuota mín: ${fmt(d.cuota)}</span><span>${pct}% del mayor</span></div>
+      <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%;background:${d.color}"></div></div>
+      <button class="debt-pay-btn" data-idx="${idx}">💳 Registrar pago</button>
+      <div class="debt-pay-form" id="debtForm${idx}">
+        <label>Monto pagado</label>
+        <input type="number" id="debtAmt${idx}" value="${d.cuota}" min="1">
+        <label>Fecha</label>
+        <input type="date" id="debtDate${idx}" value="${today()}">
+        <label>Nota (opcional)</label>
+        <input type="text" id="debtNota${idx}" placeholder="Ej: cuota octubre">
+        <div class="debt-pay-actions">
+          <button class="btn btn-green btn-sm" data-save="${idx}">Guardar pago</button>
+          <button class="btn btn-ghost btn-sm" data-cancel="${idx}">Cancelar</button>
+        </div>
+      </div>
+      ${histHTML}
+    `;
+    dl.appendChild(item);
+  });
+
+  // Bind toggle buttons
+  dl.querySelectorAll('.debt-pay-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx=btn.dataset.idx;
+      const form=document.getElementById('debtForm'+idx);
+      form.classList.toggle('open');
+      btn.textContent=form.classList.contains('open')?'✕ Cerrar':'💳 Registrar pago';
+    });
+  });
+
+  // Bind save
+  dl.querySelectorAll('[data-save]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx=+btn.dataset.save;
+      const monto=+document.getElementById('debtAmt'+idx).value;
+      const date=document.getElementById('debtDate'+idx).value;
+      const nota=document.getElementById('debtNota'+idx).value.trim();
+      if(!monto||monto<=0){showToast('Ingresa un monto válido','');return;}
+      const all=getDebtPayments();
+      all.push({debtName:DEBTS[idx].name,debtIndex:idx,monto,date,nota,ts:Date.now()});
+      saveDebtPayments(all);
+      showToast('Pago registrado ✓','ok');
+      renderDebts();
+    });
+  });
+
+  // Bind cancel
+  dl.querySelectorAll('[data-cancel]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const idx=btn.dataset.cancel;
+      const form=document.getElementById('debtForm'+idx);
+      form.classList.remove('open');
+      dl.querySelectorAll('.debt-pay-btn').forEach(b=>{
+        if(b.dataset.idx===idx) b.textContent='💳 Registrar pago';
+      });
+    });
+  });
+}
+renderDebts();
+
+/* ══ FIXED EXPENSES TABLE ═════════════════════════════ */
+const FIXED=[
+  {name:'GPT',day:'17',amt:100000},
+  {name:'Apple',day:'1',amt:13000},
+  {name:'Spotify',day:'28',amt:30500},
+  {name:'Google',day:'12',amt:13000},
+  {name:'Movistar',day:'15',amt:40000},
+  {name:'Vanti',day:'5',amt:60000},
+  {name:'ENEL',day:'5',amt:350000},
+  {name:'HV',day:'5',amt:100000},
+  {name:'Agua',day:'5',amt:60000},
+  {name:'Maestría',day:'1',amt:0},
+  {name:'Inglés TOEFL',day:'Cada 8 días',amt:800000},
+  {name:'Aseo y comida',day:'1 y 15',amt:300000},
+  {name:'Transporte/almuerzo oficina',day:'Cada 8 días',amt:300000},
+  {name:'Viajes',day:'1',amt:200000},
+  {name:'Otros',day:'1',amt:300000},
+  {name:'Prestaciones',day:'1',amt:900000},
+];
+
+function getFixedPaid(idx){
+  return load('fixed_paid_'+yearMonth()+'_'+idx,'0')==='1';
+}
+function setFixedPaid(idx,val){
+  if(val){
+    store('fixed_paid_'+yearMonth()+'_'+idx,'1');
+  } else {
+    store('fixed_paid_'+yearMonth()+'_'+idx,'0');
+  }
+}
+
+function updateFixedProgress(){
+  const paidCount=FIXED.reduce((c,_,i)=>c+(getFixedPaid(i)?1:0),0);
+  const total=FIXED.length;
+  document.getElementById('fixedPaidCount').textContent=paidCount+' / '+total;
+  document.getElementById('fixedProgFill').style.width=Math.round(paidCount/total*100)+'%';
+}
+
+function renderFixed(){
+  const tbody=document.getElementById('fixedExpTable');
+  tbody.innerHTML='';
+  const totalAmt=3566500;
+  FIXED.forEach((g,i)=>{
+    const pct=totalAmt>0?(g.amt/totalAmt*100).toFixed(1):'0';
+    const paid=getFixedPaid(i);
+    const tr=document.createElement('tr');
+    tr.className='fixed-paid-row'+(paid?' paid':'');
+    tr.innerHTML=`<td>${paid?'✅ ':''}<span class="fixed-name">${g.name}</span></td><td style="color:var(--muted);font-size:12px">${g.day}</td><td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(g.amt)}</td><td style="text-align:right;color:var(--muted)">${pct}%</td><td style="text-align:center"><input type="checkbox" class="paid-checkbox" data-fidx="${i}" ${paid?'checked':''}></td>`;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('.paid-checkbox').forEach(cb=>{
+    cb.addEventListener('change',()=>{
+      const idx=+cb.dataset.fidx;
+      setFixedPaid(idx,cb.checked);
+      // Store in pagos log if checked
+      if(cb.checked){
+        const fixedPayments=getFixedPaymentsLog();
+        const ym=yearMonth();
+        // Avoid duplicates for same month/index
+        const alreadyExists=fixedPayments.some(p=>p.fixedIndex===idx&&p.yearMonth===ym);
+        if(!alreadyExists){
+          fixedPayments.push({
+            type:'fixed',
+            fixedName:FIXED[idx].name,
+            fixedIndex:idx,
+            yearMonth:ym,
+            monto:FIXED[idx].amt,
+            date:today(),
+            nota:'Pago mensual',
+            ts:Date.now()
+          });
+          saveFixedPaymentsLog(fixedPayments);
+        }
+      } else {
+        // Remove from log
+        const fixedPayments=getFixedPaymentsLog();
+        const ym=yearMonth();
+        const filtered=fixedPayments.filter(p=>!(p.fixedIndex===idx&&p.yearMonth===ym));
+        saveFixedPaymentsLog(filtered);
+      }
+      renderFixed();
+    });
+  });
+
+  updateFixedProgress();
+}
+renderFixed();
+
+/* ══ FIXED PAYMENTS LOG ═══════════════════════════════ */
+function getFixedPaymentsLog(){
+  try{return JSON.parse(load('fixed_payments','[]'))||[];}catch(_){return[];}
+}
+function saveFixedPaymentsLog(arr){store('fixed_payments',JSON.stringify(arr));}
+
+/* ══ PAGOS TAB ════════════════════════════════════════ */
+function renderPagos(){
+  const ym=yearMonth();
+  const monthName=new Date(ym+'-15').toLocaleDateString('es-CO',{month:'long',year:'numeric'});
+  document.getElementById('pagosTotalMonth').textContent=monthName;
+
+  // Gather all payments
+  const debtPays=getDebtPayments().map(p=>({
+    date:p.date,
+    type:'Deuda',
+    name:p.debtName,
+    monto:Number(p.monto),
+    nota:p.nota||'',
+    ts:p.ts||0
+  }));
+
+  const fixedPays=getFixedPaymentsLog().map(p=>({
+    date:p.date,
+    type:'Gasto Fijo',
+    name:p.fixedName,
+    monto:Number(p.monto),
+    nota:p.nota||'',
+    ts:p.ts||0
+  }));
+
+  const all=[...debtPays,...fixedPays].sort((a,b)=>b.ts-a.ts);
+
+  // Total this month
+  const thisMonthTotal=all.filter(p=>p.date&&p.date.startsWith(ym)).reduce((s,p)=>s+p.monto,0);
+  document.getElementById('pagosTotalValue').textContent=fmt(thisMonthTotal);
+
+  const empty=document.getElementById('pagosEmpty');
+  const table=document.getElementById('pagosTable');
+  const tbody=document.getElementById('pagosTbody');
+
+  if(all.length===0){
+    empty.style.display='block';
+    table.style.display='none';
+    return;
+  }
+  empty.style.display='none';
+  table.style.display='table';
+  tbody.innerHTML='';
+
+  all.forEach(p=>{
+    const isDebt=p.type==='Deuda';
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td style="color:var(--muted);font-size:12px;white-space:nowrap">${p.date||'—'}</td>
+      <td><span class="badge ${isDebt?'badge-red':'badge-blue'}">${p.type}</span></td>
+      <td style="font-weight:500">${p.name}</td>
+      <td style="text-align:right;font-variant-numeric:tabular-nums;color:var(--green);font-weight:600">${fmt(p.monto)}</td>
+      <td style="color:var(--muted2);font-size:12px">${p.nota}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+/* ══ DAILY EXPENSES ═══════════════════════════════════ */
+document.getElementById('dailyDateLabel').textContent=
+  new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+
+function getDailyExp(){try{return JSON.parse(load(today(),'[]'))||[];}catch(_){return[];}}
+function saveDailyExp(arr){store(today(),JSON.stringify(arr));}
+
+function renderExpenses(){
+  const list=document.getElementById('expenseList');
+  const arr=getDailyExp();
+  list.innerHTML='';
+  let total=0;
+  arr.forEach((e,i)=>{
+    total+=e.amt;
+    const row=document.createElement('div');
+    row.className='expense-row';
+    row.innerHTML=`<span class="expense-cat">${e.cat}</span><span class="expense-desc">${e.desc}</span><span class="expense-amount">${fmt(e.amt)}</span><button class="expense-del" data-i="${i}">✕</button>`;
+    list.appendChild(row);
+  });
+  document.getElementById('dailyTotal').textContent=fmt(total);
+  list.querySelectorAll('.expense-del').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const arr2=getDailyExp();
+      arr2.splice(+btn.dataset.i,1);
+      saveDailyExp(arr2);
+      renderExpenses();
+      renderWeekHistory();
+    });
+  });
+}
+renderExpenses();
+
+document.getElementById('addExpBtn').addEventListener('click',()=>{
+  const cat=document.getElementById('expCat').value;
+  const desc=document.getElementById('expDesc').value.trim()||'Sin descripción';
+  const amt=+document.getElementById('expAmt').value;
+  if(!amt){showToast('Ingresa un monto','');return;}
+  const arr=getDailyExp();
+  arr.push({cat,desc,amt});
+  saveDailyExp(arr);
+  document.getElementById('expDesc').value='';
+  document.getElementById('expAmt').value='';
+  renderExpenses();
+  renderWeekHistory();
+  showToast('Gasto registrado ✓','ok');
+});
+
+function renderWeekHistory(){
+  const el=document.getElementById('weekHistory');
+  el.innerHTML='';
+  const keys=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    keys.push(dateKeyFor(d));
+  }
+  keys.reverse().forEach(k=>{
+    let arr;try{arr=JSON.parse(load(k,'[]'))||[];}catch(_){arr=[];}
+    const total=arr.reduce((s,e)=>s+e.amt,0);
+    const label=new Date(k+'T12:00:00').toLocaleDateString('es-CO',{weekday:'short',day:'numeric'});
+    const isToday=k===today();
+    const color=total>51140?'var(--red)':total>35000?'var(--amber)':'var(--green)';
+    el.innerHTML+=`<div class="flow-row"><div class="flow-dot" style="background:${color}"></div><div class="flow-label">${label}${isToday?' <span style="font-size:10px;color:var(--accent2)">(hoy)</span>':''}</div><div class="flow-amount" style="color:${color}">${fmt(total)}</div></div>`;
+  });
+}
+renderWeekHistory();
+
+/* ══ GASTOS HORMIGA ═══════════════════════════════════ */
+const ANT_DEFAULTS=[
+  {icon:'☕',name:'Café / tinto fuera',freq:20,unit:3500},
+  {icon:'🥤',name:'Bebidas/snacks',freq:15,unit:5000},
+  {icon:'🚖',name:'Taxis app en vez de bus',freq:8,unit:12000},
+  {icon:'📱',name:'Apps/juegos/compras in-app',freq:4,unit:10000},
+  {icon:'🍟',name:'Antojos/delivery',freq:6,unit:25000},
+  {icon:'🛍️',name:'Compras impulsivas pequeñas',freq:4,unit:20000},
+];
+
+function getAnts(){try{return JSON.parse(load('ants','null'))||ANT_DEFAULTS;}catch(_){return ANT_DEFAULTS;}}
+function saveAnts(arr){store('ants',JSON.stringify(arr));}
+
+function renderAnts(){
+  const grid=document.getElementById('antGrid');
+  const arr=getAnts();
+  grid.innerHTML='';
+  let total=0;
+  arr.forEach(a=>{
+    const monthly=a.freq*a.unit;
+    total+=monthly;
+    grid.innerHTML+=`
+    <div class="ant-item">
+      <div class="ant-icon">${a.icon}</div>
+      <div class="ant-info">
+        <div class="ant-name">${a.name}</div>
+        <div class="ant-freq">${a.freq}× al mes × ${fmt(a.unit)}</div>
+      </div>
+      <div class="ant-amount">${fmt(monthly)}</div>
+    </div>`;
+  });
+  document.getElementById('antTotal').textContent=fmt(total);
+  const saving=Math.round(total*0.5*12);
+  document.getElementById('antSaving').textContent=fmt(saving);
+}
+renderAnts();
+
+document.getElementById('addAntBtn').addEventListener('click',()=>{
+  const name=document.getElementById('antName').value.trim();
+  const unit=+document.getElementById('antAmt').value;
+  const freq=+document.getElementById('antFreq').value;
+  if(!name||!unit||!freq){showToast('Completa todos los campos','');return;}
+  const arr=getAnts();
+  arr.push({icon:'📌',name,freq,unit});
+  saveAnts(arr);
+  document.getElementById('antName').value='';
+  document.getElementById('antAmt').value='';
+  document.getElementById('antFreq').value='';
+  renderAnts();
+  showToast('Hormiga agregada ✓','ok');
+});
+
+/* ══ SHEETS ⇄ FINANCE DASHBOARD ══════════════════════ */
+const FIN_BASE = {
+  income: 7623000,
+  fixed_expenses: 3566500,
+  free_cash: 4056500,
+  minimum_debt_payment: 608110
+};
+
+function getSheetsUrl(){
+  try {
+    const own = localStorage.getItem('sheetsUrl');
+    if (own) return own;
+    if (window.parent && window.parent !== window) return window.parent.localStorage.getItem('sheetsUrl') || '';
+  } catch(_) {}
+  return '';
+}
+
+function financeStorageSnapshot(){
+  const storage={};
+  try{
+    for(let i=0;i<localStorage.length;i++){
+      const key=localStorage.key(i);
+      if(key && key.startsWith('fin_')) storage[key]=localStorage.getItem(key);
+    }
+  }catch(_){}
+  return {storage,saved_at:new Date().toISOString(),version:2};
+}
+
+function financeMetrics(){
+  const daily=getDailyExp();
+  const ants=getAnts();
+  const totalDebt=DEBTS.reduce((sum,_,i)=>sum+getDebtSaldo(i),0);
+  const ym=yearMonth();
+  const debtPaid=getDebtPayments().filter(p=>p.date&&p.date.startsWith(ym)).reduce((s,p)=>s+Number(p.monto||0),0);
+  const fixedPaid=getFixedPaymentsLog().filter(p=>p.date&&p.date.startsWith(ym)).reduce((s,p)=>s+Number(p.monto||0),0);
+  return {
+    ...FIN_BASE,
+    total_debt: totalDebt,
+    daily_total: daily.reduce((s,e)=>s+Number(e.amt||0),0),
+    ant_total: ants.reduce((s,a)=>s+(Number(a.freq||0)*Number(a.unit||0)),0),
+    paid_this_month: debtPaid+fixedPaid
+  };
+}
+
+function compactCOP(n){
+  n=Number(n)||0;
+  if(n>=1000000) return '$'+(n/1000000).toFixed(n>=10000000?2:2).replace(/\.00$/,'')+'M';
+  if(n>=1000) return '$'+Math.round(n/1000)+'K';
+  return fmt(n);
+}
+
+function updateFinanceKPIs(){
+  const m=financeMetrics();
+  const map={finKpiIncome:m.income,finKpiFixed:m.fixed_expenses,finKpiFree:m.free_cash,finKpiDebt:m.total_debt,finKpiMin:m.minimum_debt_payment};
+  Object.entries(map).forEach(([id,val])=>{const el=document.getElementById(id);if(el)el.textContent=compactCOP(val);});
+}
+
+function collectFinancePayload(){
+  const daily=getDailyExp();
+  return {
+    module:'finanzas',
+    type:'finanzas',
+    date_key:today(),
+    date:today(),
+    date_label:new Date().toLocaleDateString('es-CO'),
+    metrics:financeMetrics(),
+    daily_total:daily.reduce((s,e)=>s+Number(e.amt||0),0),
+    daily_expenses:daily,
+    ant_total:getAnts().reduce((s,a)=>s+(Number(a.freq||0)*Number(a.unit||0)),0),
+    ants:getAnts(),
+    debt_payments:getDebtPayments(),
+    fixed_payments:getFixedPaymentsLog(),
+    snapshot:financeStorageSnapshot()
+  };
+}
+
+async function saveFinanceToSheets(){
+  const url=getSheetsUrl();
+  if(!url){showToast('Conecta Google Sheets en Life OS primero','');return;}
+  const btn=document.getElementById('syncSheetsBtn');
+  const old=btn.textContent;
+  btn.textContent='⟳ Guardando…';
+  btn.disabled=true;
+  try{
+    await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(collectFinancePayload())});
+    showToast('Finanzas guardadas en la hoja “Finanzas” ✓','ok');
+  }catch(_){
+    showToast('No fue posible guardar en Sheets','');
+  }finally{
+    btn.disabled=false;
+    btn.textContent=old;
+  }
+}
+
+document.getElementById('syncSheetsBtn').addEventListener('click',saveFinanceToSheets);
+
+function refreshFinanceViews(){
+  renderDebts();
+  renderFixed();
+  renderExpenses();
+  renderWeekHistory();
+  renderAnts();
+  renderPagos();
+  updateFinanceKPIs();
+  requestParentHeight();
+}
+
+async function pullFinanceFromSheets(force=false){
+  const url=getSheetsUrl();
+  if(!url) return false;
+  const marker='fin-cloud-loaded';
+  if(!force && sessionStorage.getItem(marker)==='1') return false;
+  try{
+    const sep=url.includes('?')?'&':'?';
+    const res=await fetch(url+sep+'module=finanzas&_='+Date.now(),{cache:'no-store'});
+    const json=await res.json();
+    sessionStorage.setItem(marker,'1');
+    if(!json||!json.success||!json.found||!json.snapshot||!json.snapshot.storage){
+      if(force) showToast('Aún no hay datos de Finanzas en Sheets','');
+      updateFinanceKPIs();
+      return false;
+    }
+    Object.entries(json.snapshot.storage).forEach(([key,value])=>{
+      if(key.startsWith('fin_')) localStorage.setItem(key,value);
+    });
+    refreshFinanceViews();
+    if(force) showToast('Dashboard actualizado desde la hoja “Finanzas” ✓','ok');
+    return true;
+  }catch(_){
+    if(force) showToast('No fue posible leer Google Sheets','');
+    return false;
+  }
+}
+
+document.getElementById('loadSheetsBtn').addEventListener('click',()=>{
+  sessionStorage.removeItem('fin-cloud-loaded');
+  pullFinanceFromSheets(true);
+});
+
+function requestParentHeight(){
+  try{
+    if(window.parent&&window.parent!==window){
+      window.parent.postMessage({type:'finance:height',height:document.documentElement.scrollHeight},'*');
+    }
+  }catch(_){}
+}
+
+window.addEventListener('message',event=>{
+  const data=event.data||{};
+  if(data.type==='lifeos:config'){
+    try{if(data.sheetsUrl)localStorage.setItem('sheetsUrl',data.sheetsUrl);}catch(_){}
+    if(data.theme==='dark'||data.theme==='light') applyTheme(data.theme);
+  }
+  if(data.type==='lifeos:theme'&&(data.theme==='dark'||data.theme==='light')) applyTheme(data.theme);
+  if(data.type==='lifeos:finance-active'){
+    sessionStorage.removeItem('fin-cloud-loaded');
+    pullFinanceFromSheets(false);
+    requestParentHeight();
+  }
+});
+
+try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'finance:request-config'},'*');}catch(_){}
+setTimeout(()=>{pullFinanceFromSheets(false);updateFinanceKPIs();requestParentHeight();},450);
+window.addEventListener('load',requestParentHeight);
+window.addEventListener('resize',requestParentHeight);
+if(window.ResizeObserver){new ResizeObserver(requestParentHeight).observe(document.body);}
+
+/* ══ TOAST ════════════════════════════════════════════ */
+let tt;
+function showToast(msg,type=''){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.className='toast show'+(type?' '+type:'');
+  clearTimeout(tt);
+  tt=setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+
+      </template>
+      <script>
+        (function(){
+          const frame=document.getElementById('financeFrame');
+          const tpl=document.getElementById('financeEmbeddedTemplate');
+          if(frame&&tpl) frame.srcdoc=tpl.innerHTML;
+        })();
+      </script>
+    </div>
+
     <!-- GOOGLE SHEETS -->
     <div class="section" id="sec-sheets">
       <div class="card">
@@ -929,11 +2712,11 @@ img { max-width: 100%; }
         </div>
 
         <div class="sheets-setup">
-          <p><strong>Paso 1.</strong> Crea un Google Sheet nuevo. Abre <strong>Extensiones → Apps Script</strong> y pega el código de abajo. Haz clic en <strong>Implementar → Nueva implementación → Aplicación web</strong>. Acceso: <em>"Cualquier persona"</em>. Copia la URL.</p>
-          <p><strong>Paso 2.</strong> Pega la URL aquí y guarda.</p>
+          <p><strong>Una sola Web App, dos hojas.</strong> Life OS guarda en <strong>Life OS</strong> y Finanzas guarda en <strong>Finanzas</strong>. Al abrir el dashboard también se consulta Sheets para recuperar el último estado sincronizado.</p>
           <div class="sheets-url-row">
             <input class="field-input" id="sheetsUrl" placeholder="https://script.google.com/macros/s/…/exec">
-            <button class="sheets-save-btn" id="saveUrlBtn">Guardar URL</button>
+            <button class="sheets-save-btn" id="saveUrlBtn">Actualizar URL</button>
+            <button class="sheets-save-btn" id="pullSheetsBtn" style="background:var(--surface);color:var(--accent2);border:1px solid var(--accent)">↻ Cargar desde Sheets</button>
           </div>
         </div>
 
@@ -944,8 +2727,14 @@ img { max-width: 100%; }
           </div>
         </div>
 
+        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+          <div class="card-title" style="font-size:14px;margin-bottom:4px">⚙️ Configuración del horario</div>
+          <div class="card-desc" style="margin-bottom:14px">Elige qué día(s) vas a la oficina — esos días el plan se ajusta automáticamente.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px" id="officeDayPicker"></div>
+        </div>
+
         <div style="margin-top:16px;font-size:12.5px;color:var(--muted);line-height:1.6">
-          <strong style="color:var(--text)">Qué se sincroniza:</strong> fecha, % completado, 6 pilares, 3 wins del día, 3 resultados laborales, métricas de carrera (empleos, aplicaciones, contactos, entrevistas) y revisión de fin de día — una fila por sincronización, con timestamp.
+          <strong style="color:var(--text)">Qué se sincroniza:</strong> Life OS guarda fecha, avance, pilares, wins, resultados laborales, métricas de carrera, revisión y un snapshot completo del estado. Finanzas guarda KPIs, pagos, gastos y su snapshot. Cada fecha actualiza su propia fila para evitar duplicados.
         </div>
       </div>
     </div>
@@ -985,49 +2774,242 @@ const WEEK = {
   Sunday:    ["🌅 6–8 AM · Morning ritual","🏠 8 AM–2 PM · House cleaning","🇬🇧 2:15–3:30 PM · Long TOEFL session","⛪ 4–6 PM · Mass","🔎 6:30–8 PM · Career strategy + weekly planning"]
 };
 
-const APPS_SCRIPT = `function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  let sheet = ss.getSheetByName("Life OS");
+const APPS_SCRIPT = `/**
+ * LIFE OS + FINANZAS · Google Sheets API
+ * ---------------------------------------
+ * Una sola Web App para dos módulos:
+ *   module/type = "lifeos"    -> hoja "Life OS"
+ *   module/type = "finanzas"  -> hoja "Finanzas"
+ *
+ * POST  = guarda/actualiza el snapshot del día
+ * GET   = devuelve el snapshot más reciente (o el de una fecha)
+ */
 
-  if (!sheet) {
-    sheet = ss.insertSheet("Life OS");
-    const headers = [
-      "Timestamp","Fecha","Completado %",
-      "Pilar 1","Pilar 2","Pilar 3","Pilar 4","Pilar 5","Pilar 6",
-      "Win 1","Win 2","Win 3",
-      "Work 1","Work 2","Work 3",
-      "Empleos","Aplicaciones","Contactos","Entrevistas",
-      "Logros del día","No ocurrió","Cambio mañana"
-    ];
-    sheet.getRange(1,1,1,headers.length).setValues([headers]);
-    sheet.getRange(1,1,1,headers.length)
-      .setBackground("#7C5CF6").setFontColor("#FFFFFF").setFontWeight("bold");
-    sheet.setFrozenRows(1);
+const LIFE_SHEET = 'Life OS';
+const FIN_SHEET = 'Finanzas';
+
+function doPost(e) {
+  try {
+    const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+    const moduleName = String(data.module || data.type || 'lifeos').toLowerCase();
+
+    if (moduleName === 'finanzas') {
+      const result = saveFinance_(data);
+      return json_({ success: true, module: 'finanzas', result: result });
+    }
+
+    const result = saveLifeOS_(data);
+    return json_({ success: true, module: 'lifeos', result: result });
+  } catch (err) {
+    return json_({ success: false, error: String(err && err.message ? err.message : err) });
   }
-
-  const row = [
-    new Date().toLocaleString("es-CO"),
-    data.date, data.completion,
-    ...data.pillars,
-    data.win1, data.win2, data.win3,
-    data.work1, data.work2, data.work3,
-    data.jobs, data.applications, data.contacts, data.interviews,
-    data.review1, data.review2, data.review3
-  ];
-
-  sheet.appendRow(row);
-
-  return ContentService
-    .createTextOutput(JSON.stringify({success: true}))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function doGet(e) {
+  try {
+    const p = (e && e.parameter) || {};
+    const moduleName = String(p.module || p.type || 'status').toLowerCase();
+
+    if (moduleName === 'lifeos') {
+      return json_(readModule_(LIFE_SHEET, p.date || ''));
+    }
+
+    if (moduleName === 'finanzas') {
+      return json_(readModule_(FIN_SHEET, p.date || ''));
+    }
+
+    return json_({
+      success: true,
+      status: 'Life OS API conectada',
+      sheets: [LIFE_SHEET, FIN_SHEET],
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    return json_({ success: false, error: String(err && err.message ? err.message : err) });
+  }
+}
+
+function saveLifeOS_(data) {
+  const headers = [
+    'Timestamp','FechaKey','Fecha','Completado %',
+    'Pilar 1','Pilar 2','Pilar 3','Pilar 4','Pilar 5','Pilar 6',
+    'Win 1','Win 2','Win 3',
+    'Work 1','Work 2','Work 3',
+    'Empleos','Aplicaciones','Contactos','Entrevistas',
+    'Logros del día','No ocurrió','Cambio mañana',
+    'Snapshot JSON'
+  ];
+
+  const sheet = ensureSheet_(LIFE_SHEET, headers, '#7C5CF6');
+  const dateKey = data.date_key || data.dateKey || isoDate_(new Date());
+  const pillars = Array.isArray(data.pillars) ? data.pillars : [];
+  const snapshot = data.snapshot || {};
+
+  const row = [
+    new Date(), dateKey, data.date || '', data.completion || '',
+    pillars[0] || '', pillars[1] || '', pillars[2] || '', pillars[3] || '', pillars[4] || '', pillars[5] || '',
+    data.win1 || '', data.win2 || '', data.win3 || '',
+    data.work1 || '', data.work2 || '', data.work3 || '',
+    data.jobs || '', data.applications || '', data.contacts || '', data.interviews || '',
+    data.review1 || '', data.review2 || '', data.review3 || '',
+    JSON.stringify(snapshot)
+  ];
+
+  const rowNumber = upsertByDate_(sheet, dateKey, row);
+  return { sheet: LIFE_SHEET, row: rowNumber, date_key: dateKey };
+}
+
+function saveFinance_(data) {
+  const headers = [
+    'Timestamp','FechaKey','Fecha',
+    'Ingresos','Gastos fijos','Flujo libre','Total deuda','Cuota mínima',
+    'Gasto diario','Hormiga mensual','Pagado este mes',
+    'Pagos deuda JSON','Pagos gastos fijos JSON','Gastos diarios JSON','Gastos hormiga JSON',
+    'Snapshot JSON'
+  ];
+
+  const sheet = ensureSheet_(FIN_SHEET, headers, '#22C55E');
+  const dateKey = data.date_key || data.date || isoDate_(new Date());
+  const snapshot = data.snapshot || {};
+  const metrics = data.metrics || {};
+
+  const row = [
+    new Date(), dateKey, data.date_label || data.date || '',
+    number_(metrics.income), number_(metrics.fixed_expenses), number_(metrics.free_cash),
+    number_(metrics.total_debt), number_(metrics.minimum_debt_payment),
+    number_(metrics.daily_total != null ? metrics.daily_total : data.daily_total),
+    number_(metrics.ant_total != null ? metrics.ant_total : data.ant_total),
+    number_(metrics.paid_this_month),
+    JSON.stringify(data.debt_payments || []),
+    JSON.stringify(data.fixed_payments || []),
+    JSON.stringify(data.daily_expenses || []),
+    JSON.stringify(data.ants || []),
+    JSON.stringify(snapshot)
+  ];
+
+  const rowNumber = upsertByDate_(sheet, dateKey, row);
+  return { sheet: FIN_SHEET, row: rowNumber, date_key: dateKey };
+}
+
+function readModule_(sheetName, dateKey) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(sheetName);
+  if (!sheet || sheet.getLastRow() < 2) {
+    return { success: true, module: sheetName, found: false, snapshot: null, data: null };
+  }
+
+  const values = sheet.getDataRange().getValues();
+  const headers = values[0].map(String);
+  let selected = null;
+
+  if (dateKey) {
+    const dateIdx = headers.indexOf('FechaKey');
+    for (let i = values.length - 1; i >= 1; i--) {
+      if (String(values[i][dateIdx]) === String(dateKey)) {
+        selected = values[i];
+        break;
+      }
+    }
+  }
+
+  if (dateKey && !selected) {
+    return { success: true, module: sheetName, found: false, snapshot: null, data: null, date_key: dateKey };
+  }
+
+  if (!selected) selected = values[values.length - 1];
+
+  const obj = {};
+  headers.forEach(function(h, i) {
+    let v = selected[i];
+    if (v instanceof Date) v = v.toISOString();
+    obj[h] = v;
+  });
+
+  let snapshot = null;
+  const rawSnapshot = obj['Snapshot JSON'];
+  if (rawSnapshot) {
+    try { snapshot = JSON.parse(String(rawSnapshot)); } catch (_) { snapshot = null; }
+  }
+
+  return {
+    success: true,
+    module: sheetName,
+    found: true,
+    date_key: obj['FechaKey'] || '',
+    updated_at: obj['Timestamp'] || '',
+    snapshot: snapshot,
+    data: obj
+  };
+}
+
+function ensureSheet_(name, headers, headerColor) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(name);
+  if (!sheet) sheet = ss.insertSheet(name);
+
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.getRange(1, 1, 1, headers.length)
+      .setBackground(headerColor)
+      .setFontColor('#FFFFFF')
+      .setFontWeight('bold');
+    sheet.setFrozenRows(1);
+  } else {
+    const current = sheet.getRange(1, 1, 1, Math.max(sheet.getLastColumn(), headers.length)).getValues()[0];
+    let needsHeaderUpdate = false;
+    for (let i = 0; i < headers.length; i++) {
+      if (String(current[i] || '') !== headers[i]) {
+        needsHeaderUpdate = true;
+        break;
+      }
+    }
+    if (needsHeaderUpdate) {
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+      sheet.getRange(1, 1, 1, headers.length)
+        .setBackground(headerColor)
+        .setFontColor('#FFFFFF')
+        .setFontWeight('bold');
+      sheet.setFrozenRows(1);
+    }
+  }
+
+  return sheet;
+}
+
+function upsertByDate_(sheet, dateKey, row) {
+  const lastRow = sheet.getLastRow();
+  let targetRow = 0;
+
+  if (lastRow >= 2) {
+    const dateValues = sheet.getRange(2, 2, lastRow - 1, 1).getDisplayValues();
+    for (let i = dateValues.length - 1; i >= 0; i--) {
+      if (String(dateValues[i][0]) === String(dateKey)) {
+        targetRow = i + 2;
+        break;
+      }
+    }
+  }
+
+  if (!targetRow) targetRow = lastRow + 1;
+  sheet.getRange(targetRow, 1, 1, row.length).setValues([row]);
+  return targetRow;
+}
+
+function isoDate_(d) {
+  return Utilities.formatDate(d, Session.getScriptTimeZone() || 'America/Bogota', 'yyyy-MM-dd');
+}
+
+function number_(value) {
+  const n = Number(value);
+  return isFinite(n) ? n : 0;
+}
+
+function json_(obj) {
   return ContentService
-    .createTextOutput(JSON.stringify({status: "Life OS conectado ✓"}))
+    .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
-}`;
+}
+`;
 
 /* ══ STORAGE ══════════════════════════════════════════ */
 function store(key, val) { try { localStorage.setItem(key, val); } catch(_) {} }
@@ -1041,6 +3023,8 @@ function applyTheme(t) {
   root.setAttribute('data-theme', t);
   document.getElementById('themeToggle').textContent = t === 'dark' ? '☀️' : '🌙';
   store('theme', t);
+  const frame = document.getElementById('financeFrame');
+  if (frame && frame.contentWindow) frame.contentWindow.postMessage({type:'lifeos:theme', theme:t}, '*');
 }
 applyTheme(theme);
 document.getElementById('themeToggle').addEventListener('click', () => applyTheme(theme === 'dark' ? 'light' : 'dark'));
@@ -1053,7 +3037,7 @@ document.getElementById('topbarDate').textContent =
 const TITLES = {
   overview:'Overview', week:'Weekly Plan', morning:'Morning Ritual',
   english:'English', career:'Next Career Move', work:'Work OS',
-  review:'End-of-Day Review', sheets:'Google Sheets'
+  review:'End-of-Day Review', finanzas:'Finanzas Personales', sheets:'Google Sheets'
 };
 
 function showSection(id) {
@@ -1065,6 +3049,10 @@ function showSection(id) {
   if (nav) nav.classList.add('active');
   document.getElementById('sectionTitle').textContent = TITLES[id] || id;
   store('activeSection', id);
+  if (id === 'finanzas') {
+    const frame = document.getElementById('financeFrame');
+    if (frame && frame.contentWindow) frame.contentWindow.postMessage({type:'lifeos:finance-active'}, '*');
+  }
 }
 
 document.querySelectorAll('.nav-item').forEach(btn => {
@@ -1110,6 +3098,9 @@ ENGLISH_HABITS.forEach((h, i) => {
 });
 
 /* ══ WEEK ═════════════════════════════════════════════ */
+// Preserve original schedule so office-day logic can override
+const WEEK_ORIGINAL = JSON.parse(JSON.stringify(WEEK));
+
 const dayTabs = document.getElementById('dayTabs');
 const schedGrid = document.getElementById('schedGrid');
 let selectedDay = load('selectedDay') || (() => {
@@ -1118,20 +3109,29 @@ let selectedDay = load('selectedDay') || (() => {
   return days[idx === 0 ? 6 : idx - 1] || 'Monday';
 })();
 
-Object.keys(WEEK).forEach(day => {
-  const btn = document.createElement('button');
-  btn.className = 'day-tab' + (day === selectedDay ? ' active' : '');
-  btn.textContent = day.slice(0, 3);
-  btn.title = day;
-  btn.addEventListener('click', () => {
-    selectedDay = day;
-    store('selectedDay', day);
-    document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderSchedule();
+function buildDayTabs() {
+  dayTabs.innerHTML = '';
+  const officeDays = getOfficeDays();
+  Object.keys(WEEK).forEach(day => {
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (day === selectedDay ? ' active' : '');
+    const isOffice = officeDays.includes(day);
+    btn.innerHTML = day.slice(0, 3) + (isOffice ? ' <span style="font-size:9px;opacity:.8">🏢</span>' : '');
+    btn.title = day + (isOffice ? ' · Oficina' : '');
+    btn.addEventListener('click', () => {
+      selectedDay = day;
+      store('selectedDay', day);
+      document.querySelectorAll('.day-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderSchedule();
+    });
+    dayTabs.appendChild(btn);
   });
-  dayTabs.appendChild(btn);
-});
+}
+buildDayTabs();
+
+// Apply saved office days on load (after WEEK_ORIGINAL is set)
+applyOfficeDays();
 
 function renderSchedule() {
   schedGrid.innerHTML = '';
@@ -1194,6 +3194,10 @@ document.getElementById('resetBtn').addEventListener('click', () => {
 /* ══ SHEETS SETUP ═════════════════════════════════════ */
 document.getElementById('scriptCode').textContent = APPS_SCRIPT;
 
+// Pre-cargar la URL si no está guardada aún
+const DEFAULT_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwjcYiZNBRVcvtXZ2q2ZRf5Zp8RpwMB3hcTkNXCyujxgGiRL-qhKEgDDPa4IVn_ZAOYLw/exec';
+if (!load('sheetsUrl')) store('sheetsUrl', DEFAULT_SHEETS_URL);
+
 const sheetsUrlInput = document.getElementById('sheetsUrl');
 const connStatus = document.getElementById('connStatus');
 
@@ -1217,21 +3221,97 @@ document.getElementById('saveUrlBtn').addEventListener('click', () => {
   showToast('URL guardada ✓', 'success');
 });
 
-/* ══ SYNC ═════════════════════════════════════════════ */
+/* ══ OFFICE DAY PICKER ════════════════════════════════ */
+if (!load('officeDays')) store('officeDays', JSON.stringify(['Monday']));
+
+function getOfficeDays() {
+  try { return JSON.parse(load('officeDays', '["Monday"]')); } catch(_) { return ['Monday']; }
+}
+
+const OFFICE_SCHEDULE = [
+  "🏢 Día de oficina · Trabajo 9 AM–5 PM",
+  "🚍 ~2h de commute a la oficina",
+  "🎧 Podcast/audiolibro en inglés en el commute",
+  "🚍 ~2h de regreso a casa",
+  "🌙 Recuperación · Sin trabajo extra"
+];
+
+function applyOfficeDays() {
+  const officeDays = getOfficeDays();
+  Object.keys(WEEK).forEach(day => {
+    WEEK[day] = officeDays.includes(day)
+      ? [...OFFICE_SCHEDULE]
+      : [...WEEK_ORIGINAL[day]];
+  });
+}
+// Will be called after WEEK_ORIGINAL is defined (below in code flow)
+
+const officePicker = document.getElementById('officeDayPicker');
+
+function renderOfficePicker() {
+  officePicker.innerHTML = '';
+  const current = getOfficeDays();
+  Object.keys(WEEK).forEach(day => {
+    const isOn = current.includes(day);
+    const btn = document.createElement('button');
+    btn.className = 'day-tab' + (isOn ? ' active' : '');
+    btn.textContent = day;
+    btn.style.fontFamily = 'Inter, sans-serif';
+    btn.addEventListener('click', () => {
+      const days = getOfficeDays();
+      const idx = days.indexOf(day);
+      if (idx >= 0) days.splice(idx, 1); else days.push(day);
+      store('officeDays', JSON.stringify(days));
+      renderOfficePicker();
+      applyOfficeDays();
+      buildDayTabs();
+      renderSchedule();
+      showToast('Días de oficina actualizados ✓', 'success');
+    });
+    officePicker.appendChild(btn);
+  });
+}
+renderOfficePicker();
+
+/* ══ CLOUD SYNC (SHEETS ⇄ DASHBOARD) ═════════════════ */
+function lifeDateKey() {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone:'America/Bogota', year:'numeric', month:'2-digit', day:'2-digit'
+  }).formatToParts(new Date());
+  const obj = Object.fromEntries(parts.map(p => [p.type, p.value]));
+  return `${obj.year}-${obj.month}-${obj.day}`;
+}
+
+function collectLifeStorageSnapshot() {
+  const storage = {};
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key || key === 'sheetsUrl' || key.startsWith('fin_')) continue;
+      storage[key] = localStorage.getItem(key);
+    }
+  } catch (_) {}
+  return { storage, saved_at: new Date().toISOString(), version: 2 };
+}
+
 function collectData() {
   const g = id => (document.getElementById(id) || {}).value || '';
   return {
+    module: 'lifeos',
+    type: 'lifeos',
+    date_key: lifeDateKey(),
     date: new Date().toLocaleDateString('es-CO'),
     completion: document.getElementById('kpiPct').textContent,
     pillars: Array.from(document.querySelectorAll('.pillar-card')).map(c => c.classList.contains('done') ? '✓' : '—'),
     win1: g('win1'), win2: g('win2'), win3: g('win3'),
     work1: g('work1'), work2: g('work2'), work3: g('work3'),
     jobs: g('jobs'), applications: g('applications'), contacts: g('contacts'), interviews: g('interviews'),
-    review1: g('review1'), review2: g('review2'), review3: g('review3')
+    review1: g('review1'), review2: g('review2'), review3: g('review3'),
+    snapshot: collectLifeStorageSnapshot()
   };
 }
 
-document.getElementById('syncBtn').addEventListener('click', async () => {
+async function saveLifeToSheets() {
   const url = load('sheetsUrl', '');
   if (!url) { showSection('sheets'); showToast('Configura la URL primero', 'error'); return; }
 
@@ -1251,7 +3331,7 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
     const t = new Date().toLocaleTimeString('es-CO', {hour:'2-digit', minute:'2-digit'});
     status.textContent = 'Última sync: ' + t;
     store('lastSync', status.textContent);
-    showToast('Sincronizado con Google Sheets ✓', 'success');
+    showToast('Life OS guardado en la hoja “Life OS” ✓', 'success');
   } catch(err) {
     showToast('Error de sync — revisa la URL', 'error');
     status.textContent = 'Error de sync';
@@ -1259,7 +3339,70 @@ document.getElementById('syncBtn').addEventListener('click', async () => {
     btn.classList.remove('syncing');
     btn.innerHTML = '<span>☁️</span> Sync to Sheets';
   }
+}
+
+document.getElementById('syncBtn').addEventListener('click', saveLifeToSheets);
+
+async function pullLifeFromSheets(force = false) {
+  const url = load('sheetsUrl', '');
+  if (!url) return false;
+
+  const marker = 'lifeos-cloud-' + lifeDateKey();
+  if (!force && sessionStorage.getItem(marker) === '1') return false;
+
+  try {
+    const sep = url.includes('?') ? '&' : '?';
+    const res = await fetch(url + sep + 'module=lifeos&date=' + encodeURIComponent(lifeDateKey()) + '&_=' + Date.now(), {cache:'no-store'});
+    const json = await res.json();
+    sessionStorage.setItem(marker, '1');
+
+    if (!json || !json.success || !json.found || !json.snapshot || !json.snapshot.storage) {
+      if (force) showToast('No hay un registro de Life OS para hoy en Sheets', 'error');
+      return false;
+    }
+
+    Object.entries(json.snapshot.storage).forEach(([key, value]) => {
+      if (key !== 'sheetsUrl' && !key.startsWith('fin_')) localStorage.setItem(key, value);
+    });
+
+    if (force) showToast('Life OS cargado desde Sheets ✓', 'success');
+    setTimeout(() => location.reload(), 250);
+    return true;
+  } catch (err) {
+    if (force) showToast('No fue posible leer Google Sheets', 'error');
+    return false;
+  }
+}
+
+document.getElementById('pullSheetsBtn').addEventListener('click', () => {
+  sessionStorage.removeItem('lifeos-cloud-' + lifeDateKey());
+  pullLifeFromSheets(true);
 });
+
+// Sheets funciona como respaldo/fuente de estado: intenta recuperar el día al abrir.
+setTimeout(() => pullLifeFromSheets(false), 350);
+
+// Ajuste automático de altura del módulo Finanzas + comunicación de tema/URL.
+window.addEventListener('message', event => {
+  const data = event.data || {};
+  if (data.type === 'finance:height') {
+    const frame = document.getElementById('financeFrame');
+    if (frame && Number(data.height)) frame.style.height = Math.max(900, Number(data.height) + 12) + 'px';
+  }
+  if (data.type === 'finance:request-config') {
+    const frame = document.getElementById('financeFrame');
+    if (frame && frame.contentWindow) {
+      frame.contentWindow.postMessage({type:'lifeos:config', sheetsUrl:load('sheetsUrl',''), theme:theme}, '*');
+    }
+  }
+});
+
+const financeFrame = document.getElementById('financeFrame');
+if (financeFrame) {
+  financeFrame.addEventListener('load', () => {
+    financeFrame.contentWindow.postMessage({type:'lifeos:config', sheetsUrl:load('sheetsUrl',''), theme:theme}, '*');
+  });
+}
 
 const ls = load('lastSync');
 if (ls) document.getElementById('syncStatus').textContent = ls;
