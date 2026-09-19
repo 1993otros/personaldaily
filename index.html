@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -384,6 +384,7 @@ img{max-width:100%;}
   </nav>
   <div class="sidebar-footer">
     <button class="sync-btn" id="syncBtn"><span>☁️</span> Sync to Sheets</button>
+    <button class="sync-btn" id="loadSidebarBtn" style="margin-top:6px;border-color:var(--blue);color:var(--blue);background:var(--blue-bg)"><span>📥</span> Cargar datos</button>
     <div class="sync-status" id="syncStatus"></div>
   </div>
 </aside>
@@ -865,11 +866,55 @@ img{max-width:100%;}
           <div id="connStatus"></div>
         </div>
         <div class="sheets-setup">
-          <p><strong>URL de Apps Script configurada.</strong> Tu dashboard ya está conectado. Usa el botón <strong>☁️ Sync to Sheets</strong> en el sidebar para guardar el día.</p>
+          <p><strong>URL de Apps Script configurada.</strong> Tu dashboard está conectado en modo <strong>bidireccional</strong>: envía datos a Sheets y también los carga de vuelta.</p>
           <div class="sheets-url-row">
             <input class="field-input" id="sheetsUrl" placeholder="https://script.google.com/macros/s/…/exec">
             <button class="sheets-save-btn" id="saveUrlBtn">Actualizar URL</button>
           </div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+            <button class="btn btn-primary" id="loadFromSheetsBtn">📥 Cargar desde Sheets</button>
+            <span id="loadStatus" style="font-size:12px;color:var(--muted);align-self:center"></span>
+          </div>
+        </div>
+        <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
+          <div class="card-title" style="font-size:14px;margin-bottom:6px">📋 Apps Script — función <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;font-size:12px">doGet</code> requerida</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Para la sincronización bidireccional, tu Apps Script necesita una función <code>doGet</code> que retorne los datos guardados. Copia y pega esto en tu proyecto de Apps Script, luego vuelve a deployar:</p>
+          <pre id="appsScriptCode" style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;font-size:11px;overflow-x:auto;white-space:pre;color:var(--muted2);line-height:1.6">function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const result = {};
+
+  // Life OS — última fila de hoja "Life OS"
+  try {
+    const sh = ss.getSheetByName('Life OS');
+    if (sh && sh.getLastRow() > 1) {
+      const row = sh.getRange(sh.getLastRow(), 1, 1, sh.getLastColumn()).getValues()[0];
+      const hdr = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+      const obj = {};
+      hdr.forEach((h, i) => { if (h) obj[h] = row[i]; });
+      result.lifeOS = obj;
+    }
+  } catch(ex) { result.lifeOS = null; }
+
+  // Finanzas — todas las filas de hoja "Finanzas"
+  try {
+    const shF = ss.getSheetByName('Finanzas');
+    if (shF && shF.getLastRow() > 1) {
+      const data = shF.getRange(2, 1, shF.getLastRow()-1, shF.getLastColumn()).getValues();
+      const hdr = shF.getRange(1, 1, 1, shF.getLastColumn()).getValues()[0];
+      result.finanzas = data.map(row => {
+        const obj = {};
+        hdr.forEach((h, i) => { if (h) obj[h] = row[i]; });
+        return obj;
+      });
+    }
+  } catch(ex) { result.finanzas = []; }
+
+  return ContentService
+    .createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
+}</pre>
+          <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('appsScriptCode').textContent).then(()=>showToast('Código copiado ✓','success'))">📋 Copiar código</button>
+          <p style="font-size:11px;color:var(--muted);margin-top:10px">⚠️ Después de pegar el código: <strong>Deploy → New deployment → Web app → Anyone → Deploy</strong>. Usa la nueva URL aquí arriba.</p>
         </div>
         <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
           <div class="card-title" style="font-size:14px;margin-bottom:4px">⚙️ Días de oficina</div>
@@ -908,7 +953,7 @@ function showToast(msg,type=''){
 
 /* ══ THEME ══════════════════════════════════════════════ */
 const root=document.documentElement;
-let theme=load('theme','dark');
+let theme=load('theme') || 'dark';
 function applyTheme(t){theme=t;root.setAttribute('data-theme',t);document.getElementById('themeToggle').textContent=t==='dark'?'☀️':'🌙';store('theme',t);}
 applyTheme(theme);
 document.getElementById('themeToggle').addEventListener('click',()=>applyTheme(theme==='dark'?'light':'dark'));
@@ -1093,6 +1138,83 @@ document.getElementById('syncBtn').addEventListener('click',async()=>{
   finally{btn.classList.remove('syncing');btn.innerHTML='<span>☁️</span> Sync to Sheets';}
 });
 const ls=load('lastSync');if(ls)document.getElementById('syncStatus').textContent=ls;
+
+/* ══ LOAD FROM SHEETS (bidireccional) ═══════════════════ */
+async function loadFromSheets(){
+  const url=load('sheetsUrl','');
+  if(!url){showToast('Configura la URL de Sheets primero','error');showSection('sheets');return;}
+  const status=document.getElementById('syncStatus');
+  const loadEl=document.getElementById('loadStatus');
+  const setMsg=(el,msg)=>{if(el)el.textContent=msg;};
+  setMsg(status,'Cargando desde Sheets…');
+  setMsg(loadEl,'⟳ Cargando…');
+  try{
+    // GET request — Apps Script doGet retorna JSON con CORS abierto
+    const res=await fetch(url+'?action=get&v='+Date.now());
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const data=await res.json();
+
+    // ── Life OS data ──
+    if(data.lifeOS){
+      const d=data.lifeOS;
+      const setVal=(id,val)=>{const el=document.getElementById(id);if(el&&val!==undefined&&val!==null&&val!=='')el.value=val;};
+      setVal('win1',d.win1);setVal('win2',d.win2);setVal('win3',d.win3);
+      setVal('work1',d.work1);setVal('work2',d.work2);setVal('work3',d.work3);
+      setVal('jobs',d.jobs);setVal('applications',d.applications);setVal('contacts',d.contacts);setVal('interviews',d.interviews);
+      setVal('review1',d.review1);setVal('review2',d.review2);setVal('review3',d.review3);
+      // Pillars: si el array viene como string "✓,—,✓,✓,—,✓"
+      if(d.pillars){
+        let pArr=typeof d.pillars==='string'?d.pillars.split(','):d.pillars;
+        document.querySelectorAll('.pillar-card').forEach((c,i)=>{
+          if(pArr[i]==='✓')c.classList.add('done');
+          else c.classList.remove('done');
+        });
+        updateProgress();
+      }
+      // Persistir en localStorage para que sobreviva el reload
+      ['win1','win2','win3','work1','work2','work3','jobs','applications','contacts','interviews','review1','review2','review3'].forEach(id=>{
+        const el=document.getElementById(id);if(el)store(id,el.value);
+      });
+    }
+
+    // ── Finanzas data: rebuilds debt saldos from payment rows ──
+    if(data.finanzas&&Array.isArray(data.finanzas)){
+      // Solo cargamos filas de tipo 'deuda' para sincronizar pagos
+      const paymentRows=data.finanzas.filter(r=>r.type==='deuda'||r.debt_name||r.debtName);
+      if(paymentRows.length>0){
+        // Mapear a nuestro formato interno y AGREGAR pagos nuevos que no existen
+        const existing=getDebtPayments();
+        const existingTs=new Set(existing.map(p=>String(p.ts)));
+        let added=0;
+        paymentRows.forEach(r=>{
+          const ts=r.ts||r.timestamp||'';
+          if(!existingTs.has(String(ts))){
+            const idx=DEBTS.findIndex(d=>d.name===(r.debtName||r.debt_name||''));
+            if(idx>=0){
+              existing.push({debtName:DEBTS[idx].name,debtIndex:idx,monto:Number(r.monto||r.amount||0),date:r.date||finToday(),nota:r.nota||r.note||'',ts:ts||Date.now()});
+              added++;
+            }
+          }
+        });
+        if(added>0){saveDebtPayments(existing);renderDebts();}
+      }
+    }
+
+    const t=new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
+    setMsg(status,'Cargado: '+t);
+    setMsg(loadEl,'✅ Datos cargados: '+t);
+    showToast('Datos cargados desde Sheets ✓','success');
+  }catch(err){
+    const msg=err.message.includes('JSON')?'El Apps Script no retorna JSON — actualiza el doGet':'Error al cargar: '+err.message;
+    setMsg(loadEl,'❌ '+msg);
+    showToast(msg,'error');
+    console.error('loadFromSheets:',err);
+  }
+}
+
+// Vincular botones
+document.getElementById('loadSidebarBtn').addEventListener('click',loadFromSheets);
+document.getElementById('loadFromSheetsBtn')&&document.getElementById('loadFromSheetsBtn').addEventListener('click',loadFromSheets);
 
 /* ════════════════════════════════════════════════════════
    FINANZAS MODULE
