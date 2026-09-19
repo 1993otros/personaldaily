@@ -139,6 +139,28 @@ img{max-width:100%;}
 .field-row .field-input{flex:1;}
 .win-num{width:24px;height:24px;border-radius:50%;background:var(--accent-bg);color:var(--accent2);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 
+/* ── WEEKLY CALENDAR ── */
+.wcal{display:grid;grid-template-columns:44px repeat(7,1fr);gap:2px;font-size:11px;}
+.wcal-head{font-size:10px;font-weight:700;text-align:center;padding:6px 2px 8px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase;position:sticky;top:0;background:var(--surface);z-index:2;}
+.wcal-head.today{color:var(--accent2);}
+.wcal-time{color:var(--muted);font-size:10px;padding:0 6px 0 0;text-align:right;line-height:1;display:flex;align-items:flex-start;justify-content:flex-end;padding-top:3px;font-variant-numeric:tabular-nums;}
+.wcal-cell{min-height:18px;border-radius:4px;margin:1px 2px;}
+.wcal-cell.free{background:transparent;}
+.wcal-cell.block{border-radius:6px;padding:3px 5px;font-size:10px;font-weight:600;line-height:1.3;overflow:hidden;color:#fff;cursor:default;transition:opacity .15s;}
+.wcal-cell.block:hover{opacity:.85;}
+.wcal-cell.cat-morning{background:#7C5CF6;}
+.wcal-cell.cat-work{background:#3B82F6;}
+.wcal-cell.cat-study{background:#10B981;}
+.wcal-cell.cat-class{background:#F59E0B;}
+.wcal-cell.cat-personal{background:#EC4899;}
+.wcal-cell.cat-commute{background:#6B7280;}
+.wcal-cell.cat-free{background:var(--surface2);color:var(--muted)!important;font-weight:400!important;}
+.wcal-now{background:var(--accent);opacity:.7;border-radius:2px;}
+.wcal-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.wcal-leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted2);}
+.wcal-leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+@media(max-width:680px){.wcal{grid-template-columns:36px repeat(7,1fr);}.wcal-cell.block{font-size:9px;padding:2px 3px;}}
+
 /* ── HABITS ── */
 .habit-list{display:flex;flex-direction:column;gap:8px;}
 .habit-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;transition:all .15s;}
@@ -460,6 +482,16 @@ img{max-width:100%;}
           <div class="field-row"><div class="win-num">2</div><input class="field-input save" id="win2" placeholder="How I will grow today"></div>
           <div class="field-row"><div class="win-num">3</div><input class="field-input save" id="win3" placeholder="How I will protect my energy"></div>
         </div>
+      </div>
+      <!-- WEEKLY CALENDAR -->
+      <div class="card" id="weekCalCard">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Weekly Schedule</div>
+            <div class="card-desc">Vista completa de la semana · horas libres en gris</div>
+          </div>
+        </div>
+        <div id="weekCal"></div>
       </div>
     </div>
 
@@ -873,48 +905,112 @@ img{max-width:100%;}
           </div>
           <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
             <button class="btn btn-primary" id="loadFromSheetsBtn">📥 Cargar desde Sheets</button>
+            <button class="btn btn-ghost btn-sm" id="diagBtn" style="border-color:var(--amber);color:var(--amber)">🔍 Diagnóstico</button>
             <span id="loadStatus" style="font-size:12px;color:var(--muted);align-self:center"></span>
           </div>
+          <div id="diagResult" style="display:none;margin-top:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;font-size:12px;line-height:1.8;font-family:monospace"></div>
         </div>
         <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
-          <div class="card-title" style="font-size:14px;margin-bottom:6px">📋 Apps Script — función <code style="background:var(--surface2);padding:2px 6px;border-radius:4px;font-size:12px">doGet</code> requerida</div>
-          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Para la sincronización bidireccional, tu Apps Script necesita una función <code>doGet</code> que retorne los datos guardados. Copia y pega esto en tu proyecto de Apps Script, luego vuelve a deployar:</p>
-          <pre id="appsScriptCode" style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;font-size:11px;overflow-x:auto;white-space:pre;color:var(--muted2);line-height:1.6">function doGet(e) {
+          <div class="card-title" style="font-size:14px;margin-bottom:6px">📋 Código completo de Apps Script</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:10px">Borra todo lo que tengas en Apps Script y reemplaza con este código. Luego deployar como Web App → <strong>Anyone</strong>.</p>
+          <pre id="appsScriptCode" style="background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:14px;font-size:11px;overflow-x:auto;white-space:pre;color:var(--muted2);line-height:1.6">// ══════════════════════════════════════════════
+//  Viviana · Life OS — Apps Script Backend
+// ══════════════════════════════════════════════
+
+function doPost(e) {
+  try {
+    // Lee del form submit (e.parameter.data) o fetch directo
+    const raw = (e.parameter &amp;&amp; e.parameter.data)
+                  ? e.parameter.data
+                  : e.postData.contents;
+    const data = JSON.parse(raw);
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+
+    if (data.type === 'finanzas') {
+      let sh = ss.getSheetByName('Finanzas');
+      if (!sh) {
+        sh = ss.insertSheet('Finanzas');
+        sh.appendRow(['date','type','debtName','debtIndex',
+                      'monto','nota','ts','daily_total','ant_total']);
+      }
+      if (data.debt_payments &amp;&amp; data.debt_payments.length > 0) {
+        data.debt_payments.forEach(p => {
+          sh.appendRow([p.date,'deuda',p.debtName,p.debtIndex,
+                        p.monto,p.nota||'',p.ts||'','','']);
+        });
+      }
+      sh.appendRow([data.date,'resumen_diario','','','','',
+                    Date.now(),data.daily_total||0,data.ant_total||0]);
+    } else {
+      let sh = ss.getSheetByName('Life OS');
+      if (!sh) {
+        sh = ss.insertSheet('Life OS');
+        sh.appendRow(['date','completion','pillars',
+                      'win1','win2','win3','work1','work2','work3',
+                      'jobs','applications','contacts','interviews',
+                      'review1','review2','review3']);
+      }
+      sh.appendRow([
+        data.date, data.completion,
+        Array.isArray(data.pillars) ? data.pillars.join(',') : (data.pillars||''),
+        data.win1||'', data.win2||'', data.win3||'',
+        data.work1||'', data.work2||'', data.work3||'',
+        data.jobs||'', data.applications||'', data.contacts||'', data.interviews||'',
+        data.review1||'', data.review2||'', data.review3||''
+      ]);
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:true}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:false,error:err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const result = {};
 
-  // Life OS — última fila de hoja "Life OS"
   try {
     const sh = ss.getSheetByName('Life OS');
-    if (sh && sh.getLastRow() > 1) {
-      const row = sh.getRange(sh.getLastRow(), 1, 1, sh.getLastColumn()).getValues()[0];
-      const hdr = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+    if (sh &amp;&amp; sh.getLastRow() > 1) {
+      const hdr = sh.getRange(1,1,1,sh.getLastColumn()).getValues()[0];
+      const row = sh.getRange(sh.getLastRow(),1,1,sh.getLastColumn()).getValues()[0];
       const obj = {};
-      hdr.forEach((h, i) => { if (h) obj[h] = row[i]; });
+      hdr.forEach((h,i) => { if(h) obj[h] = row[i]; });
       result.lifeOS = obj;
     }
   } catch(ex) { result.lifeOS = null; }
 
-  // Finanzas — todas las filas de hoja "Finanzas"
   try {
     const shF = ss.getSheetByName('Finanzas');
-    if (shF && shF.getLastRow() > 1) {
-      const data = shF.getRange(2, 1, shF.getLastRow()-1, shF.getLastColumn()).getValues();
-      const hdr = shF.getRange(1, 1, 1, shF.getLastColumn()).getValues()[0];
-      result.finanzas = data.map(row => {
+    if (shF &amp;&amp; shF.getLastRow() > 1) {
+      const hdr = shF.getRange(1,1,1,shF.getLastColumn()).getValues()[0];
+      const rows = shF.getRange(2,1,shF.getLastRow()-1,shF.getLastColumn()).getValues();
+      result.finanzas = rows.map(row => {
         const obj = {};
-        hdr.forEach((h, i) => { if (h) obj[h] = row[i]; });
+        hdr.forEach((h,i) => { if(h) obj[h] = row[i]; });
         return obj;
       });
     }
   } catch(ex) { result.finanzas = []; }
 
+  // JSONP — necesario para leer la respuesta desde el browser
+  const cb = e &amp;&amp; e.parameter &amp;&amp; e.parameter.callback;
+  if (cb) {
+    return ContentService
+      .createTextOutput(cb + '(' + JSON.stringify(result) + ')')
+      .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
   return ContentService
     .createTextOutput(JSON.stringify(result))
     .setMimeType(ContentService.MimeType.JSON);
 }</pre>
-          <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('appsScriptCode').textContent).then(()=>showToast('Código copiado ✓','success'))">📋 Copiar código</button>
-          <p style="font-size:11px;color:var(--muted);margin-top:10px">⚠️ Después de pegar el código: <strong>Deploy → New deployment → Web app → Anyone → Deploy</strong>. Usa la nueva URL aquí arriba.</p>
+          <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('appsScriptCode').textContent.replace(/&amp;/g,'&')).then(()=>showToast('Código copiado ✓','success'))">📋 Copiar código</button>
+          <p style="font-size:11px;color:var(--muted);margin-top:10px">⚠️ Pasos: <strong>1)</strong> Borra el código actual en Apps Script <strong>2)</strong> Pega este código <strong>3)</strong> Deploy → New deployment → Web app → Execute as: Me → Who has access: Anyone → Deploy <strong>4)</strong> Copia la nueva URL y pégala arriba → Actualizar URL.</p>
         </div>
         <div style="margin-top:20px;border-top:1px solid var(--border);padding-top:18px">
           <div class="card-title" style="font-size:14px;margin-bottom:4px">⚙️ Días de oficina</div>
@@ -1019,10 +1115,33 @@ const WEEK={
   Sunday:["🌅 6–8 AM · Morning ritual","🏠 8 AM–2 PM · House cleaning","🇬🇧 2:15–3:30 PM · Long TOEFL session","⛪ 4–6 PM · Mass","🔎 6:30–8 PM · Career strategy + weekly planning"]
 };
 const WEEK_ORIGINAL=JSON.parse(JSON.stringify(WEEK));
-const OFFICE_SCHEDULE=["🏢 Día de oficina · Trabajo 9 AM–5 PM","🚍 ~2h de commute a la oficina","🎧 Podcast/audiolibro en inglés en el commute","🚍 ~2h de regreso a casa","🌙 Recuperación · Sin trabajo extra"];
+
+// Actividades nocturnas fijas que NO se reemplazan aunque sea día de oficina
+const EVENING_FIXED={
+  Monday:   ["🧠 6–8 PM · AI deep study"],
+  Tuesday:  ["🧠 6–8 PM · AI deep study"],
+  Wednesday:["🎓 6:30–8 PM · AI Seminar"],
+  Thursday: ["🎓 6–9 PM · Introduction to AI"],
+  Friday:   ["🎓 6–9 PM · Introduction to AI"],
+  Saturday: [],
+  Sunday:   []
+};
+
+const OFFICE_BASE=["🌅 6–8 AM · Morning ritual","🚍 ~2h de commute a la oficina","🎧 Podcast en inglés en el commute","🏢 9 AM–5 PM · Trabajo en oficina","🚍 ~2h de regreso a casa"];
 
 function getOfficeDays(){try{return JSON.parse(load('officeDays','["Monday"]'));}catch(_){return['Monday'];}}
-function applyOfficeDays(){const od=getOfficeDays();Object.keys(WEEK).forEach(day=>{WEEK[day]=od.includes(day)?[...OFFICE_SCHEDULE]:[...WEEK_ORIGINAL[day]];});}
+function applyOfficeDays(){
+  const od=getOfficeDays();
+  Object.keys(WEEK).forEach(day=>{
+    if(od.includes(day)){
+      // Día de oficina: horario de oficina + clases nocturnas fijas del día
+      const evening=EVENING_FIXED[day]||[];
+      WEEK[day]=[...OFFICE_BASE,...evening];
+    } else {
+      WEEK[day]=[...WEEK_ORIGINAL[day]];
+    }
+  });
+}
 
 const dayTabs=document.getElementById('dayTabs');
 const schedGrid=document.getElementById('schedGrid');
@@ -1098,6 +1217,151 @@ function updateProgress(){
 }
 updateProgress();
 
+/* ══ WEEKLY CALENDAR ════════════════════════════════════ */
+(function buildWeekCal(){
+  const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const DAY_SHORT=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const START=6*60, END=22*60; // 6 AM–10 PM en minutos
+  const TOTAL=END-START;
+
+  // Bloques: s/e en minutos desde medianoche
+  const BLOCKS={
+    Monday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:540,e:720,label:'Deep work',cat:'work'},
+      {s:765,e:825,label:'TOEFL',cat:'study'},
+      {s:840,e:1020,label:'Work',cat:'work'},
+      {s:1080,e:1200,label:'AI study',cat:'study'},
+    ],
+    Tuesday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:540,e:720,label:'Deep work',cat:'work'},
+      {s:765,e:825,label:'TOEFL',cat:'study'},
+      {s:840,e:1020,label:'Work',cat:'work'},
+      {s:1080,e:1200,label:'AI study',cat:'study'},
+    ],
+    Wednesday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:540,e:720,label:'Deep work',cat:'work'},
+      {s:765,e:825,label:'TOEFL',cat:'study'},
+      {s:840,e:1020,label:'Work',cat:'work'},
+      {s:1110,e:1200,label:'AI Seminar',cat:'class'},
+    ],
+    Thursday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:540,e:720,label:'Work',cat:'work'},
+      {s:765,e:825,label:'Comm. training',cat:'study'},
+      {s:840,e:1020,label:'Work',cat:'work'},
+      {s:1080,e:1260,label:'Intro AI',cat:'class'},
+    ],
+    Friday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:540,e:720,label:'Work',cat:'work'},
+      {s:765,e:825,label:'Job search',cat:'personal'},
+      {s:840,e:1020,label:'Work',cat:'work'},
+      {s:1080,e:1260,label:'Intro AI',cat:'class'},
+    ],
+    Saturday:[
+      {s:420,e:480,label:'Commute',cat:'commute'},
+      {s:450,e:660,label:'Clase presencial',cat:'class'},
+      {s:660,e:840,label:'Group workshop',cat:'class'},
+      {s:840,e:900,label:'Commute',cat:'commute'},
+      {s:900,e:1320,label:'Libre / recovery',cat:'free'},
+    ],
+    Sunday:[
+      {s:360,e:480,label:'Morning ritual',cat:'morning'},
+      {s:480,e:720,label:'House cleaning',cat:'personal'},
+      {s:735,e:810,label:'TOEFL',cat:'study'},
+      {s:960,e:1080,label:'Mass',cat:'personal'},
+      {s:1110,e:1200,label:'Career planning',cat:'personal'},
+    ],
+  };
+
+  const CAT_COLOR={morning:'#7C5CF6',work:'#3B82F6',study:'#10B981',class:'#F59E0B',personal:'#EC4899',commute:'#6B7280',free:'rgba(255,255,255,0.05)'};
+
+  const todayIdx=(new Date().getDay()+6)%7;
+  const officeDays=getOfficeDays();
+  const nowMin=new Date().getHours()*60+new Date().getMinutes();
+
+  const el=document.getElementById('weekCal');
+  if(!el)return;
+
+  // Etiquetas de hora en el eje Y
+  const pct=m=>((m-START)/TOTAL*100).toFixed(2)+'%';
+  const H=680; // altura px del área de bloques
+
+  let html=`<div style="display:flex;gap:0;overflow-x:auto;padding-bottom:4px">`;
+
+  // Eje de horas
+  html+=`<div style="width:40px;flex-shrink:0;position:relative;height:${H}px;margin-top:28px">`;
+  for(let h=6;h<=22;h++){
+    const top=((h*60-START)/TOTAL*100).toFixed(2);
+    const lbl=h===12?'12pm':h<12?h+'am':(h-12)+'pm';
+    html+=`<div style="position:absolute;top:${top}%;right:6px;font-size:9px;color:var(--muted);transform:translateY(-50%);white-space:nowrap">${lbl}</div>`;
+  }
+  // Línea horizontal cada hora
+  for(let h=6;h<=22;h++){
+    const top=((h*60-START)/TOTAL*100).toFixed(2);
+    html+=`<div style="position:absolute;top:${top}%;left:0;right:-6px;height:1px;background:var(--border);opacity:.5"></div>`;
+  }
+  html+='</div>';
+
+  // Columnas de días
+  DAYS.forEach((day,di)=>{
+    const isToday=di===todayIdx;
+    const isOffice=officeDays.includes(day);
+    const blocks=BLOCKS[day]||[];
+
+    html+=`<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">`;
+    // Cabecera
+    html+=`<div style="text-align:center;font-size:10px;font-weight:700;padding:4px 2px 6px;color:${isToday?'var(--accent2)':'var(--muted)'};letter-spacing:.5px;text-transform:uppercase;white-space:nowrap">${DAY_SHORT[di]}${isOffice?' 🏢':''}</div>`;
+
+    // Área de tiempo
+    html+=`<div style="position:relative;height:${H}px;background:var(--surface2);border-radius:8px;overflow:hidden;border:1px solid ${isToday?'var(--accent)':'var(--border)'}">`;
+
+    // Líneas de hora
+    for(let h=6;h<=22;h++){
+      const top=((h*60-START)/TOTAL*100).toFixed(2);
+      html+=`<div style="position:absolute;top:${top}%;left:0;right:0;height:1px;background:var(--border);opacity:.4"></div>`;
+    }
+
+    // Bloques de actividad
+    blocks.forEach(b=>{
+      const bs=Math.max(b.s,START), be=Math.min(b.e,END);
+      if(be<=bs)return;
+      const top=((bs-START)/TOTAL*100).toFixed(2);
+      const height=((be-bs)/TOTAL*100).toFixed(2);
+      const mins=be-bs;
+      const color=CAT_COLOR[b.cat]||'#888';
+      const showLabel=mins>=45;
+      const isFree=b.cat==='free';
+      html+=`<div title="${b.label} · ${Math.floor(mins/60)}h${mins%60?mins%60+'m':''}" style="position:absolute;top:${top}%;height:${height}%;left:2px;right:2px;background:${color};border-radius:4px;padding:${showLabel?'3px 4px':'0'};overflow:hidden;cursor:default;transition:opacity .15s;opacity:${isFree?.4:1}" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='${isFree?.4:1}'">
+        ${showLabel?`<div style="font-size:9px;font-weight:600;color:${isFree?'var(--muted)':'rgba(255,255,255,.95)'};line-height:1.2;overflow:hidden">${b.label}</div>`:''}
+      </div>`;
+    });
+
+    // Línea "ahora" si es hoy
+    if(isToday&&nowMin>=START&&nowMin<=END){
+      const top=((nowMin-START)/TOTAL*100).toFixed(2);
+      html+=`<div style="position:absolute;top:${top}%;left:0;right:0;height:2px;background:var(--accent);z-index:3;border-radius:1px"></div>
+             <div style="position:absolute;top:${top}%;left:0;width:6px;height:6px;background:var(--accent);border-radius:50%;transform:translateY(-50%);z-index:4"></div>`;
+    }
+
+    html+='</div></div>'; // cierra área + columna
+  });
+
+  html+='</div>'; // cierra flex
+
+  // Leyenda
+  html+=`<div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">`;
+  [['#7C5CF6','Morning ritual'],['#3B82F6','Trabajo'],['#10B981','Estudio / TOEFL'],['#F59E0B','Clases maestría'],['#EC4899','Personal'],['#6B7280','Commute']].forEach(([c,n])=>{
+    html+=`<div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted2)"><div style="width:10px;height:10px;border-radius:3px;background:${c};flex-shrink:0"></div>${n}</div>`;
+  });
+  html+='</div>';
+
+  el.innerHTML=html;
+})();
+
 /* ══ RESET ═══════════════════════════════════════════════ */
 document.getElementById('resetBtn').addEventListener('click',()=>{
   if(!confirm('¿Resetear el tracking de hoy?'))return;
@@ -1119,6 +1383,42 @@ function refreshConnStatus(){const url=load('sheetsUrl','');sheetsUrlInput.value
 refreshConnStatus();
 document.getElementById('saveUrlBtn').addEventListener('click',()=>{const url=sheetsUrlInput.value.trim();if(!url.startsWith('https://script.google.com')){showToast('Ingresa una URL de Apps Script válida','error');return;}store('sheetsUrl',url);refreshConnStatus();showToast('URL guardada ✓','success');});
 
+/* ══ POST A SHEETS vía iframe (evita CORS 100%) ═════════ */
+// Apps Script acepta siempre un form submit normal.
+// Creamos un <form> + <iframe> ocultos, enviamos y destruimos.
+function postToSheets(url, payload){
+  return new Promise(resolve=>{
+    const iframeName='_sf_'+Date.now();
+    const iframe=document.createElement('iframe');
+    iframe.name=iframeName;
+    iframe.style.cssText='position:fixed;width:0;height:0;opacity:0;pointer-events:none;border:0;';
+    document.body.appendChild(iframe);
+
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=url;
+    form.target=iframeName;
+    form.style.display='none';
+
+    const inp=document.createElement('input');
+    inp.type='hidden';
+    inp.name='data';
+    inp.value=JSON.stringify(payload);
+    form.appendChild(inp);
+    document.body.appendChild(form);
+
+    iframe.onload=()=>{
+      setTimeout(()=>{
+        try{document.body.removeChild(form);}catch(_){}
+        try{document.body.removeChild(iframe);}catch(_){}
+      },500);
+      resolve(true);
+    };
+    setTimeout(()=>resolve(true),8000); // fallback timeout
+    form.submit();
+  });
+}
+
 /* ══ SYNC LIFE OS ════════════════════════════════════════ */
 function collectData(){
   const g=id=>(document.getElementById(id)||{}).value||'';
@@ -1131,7 +1431,7 @@ document.getElementById('syncBtn').addEventListener('click',async()=>{
   const status=document.getElementById('syncStatus');
   btn.classList.add('syncing');btn.innerHTML='<span>⟳</span> Sincronizando…';status.textContent='';
   try{
-    await fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(collectData())});
+    await postToSheets(url,collectData());
     const t=new Date().toLocaleTimeString('es-CO',{hour:'2-digit',minute:'2-digit'});
     status.textContent='Última sync: '+t;store('lastSync',status.textContent);showToast('Sincronizado con Google Sheets ✓','success');
   }catch(err){showToast('Error de sync — revisa la URL','error');status.textContent='Error de sync';}
@@ -1140,7 +1440,7 @@ document.getElementById('syncBtn').addEventListener('click',async()=>{
 const ls=load('lastSync');if(ls)document.getElementById('syncStatus').textContent=ls;
 
 /* ══ LOAD FROM SHEETS (bidireccional) ═══════════════════ */
-async function loadFromSheets(){
+function loadFromSheets(){
   const url=load('sheetsUrl','');
   if(!url){showToast('Configura la URL de Sheets primero','error');showSection('sheets');return;}
   const status=document.getElementById('syncStatus');
@@ -1148,11 +1448,25 @@ async function loadFromSheets(){
   const setMsg=(el,msg)=>{if(el)el.textContent=msg;};
   setMsg(status,'Cargando desde Sheets…');
   setMsg(loadEl,'⟳ Cargando…');
-  try{
-    // GET request — Apps Script doGet retorna JSON con CORS abierto
-    const res=await fetch(url+'?action=get&v='+Date.now());
-    if(!res.ok)throw new Error('HTTP '+res.status);
-    const data=await res.json();
+
+  // Apps Script no permite CORS directo desde el browser.
+  // Usamos JSONP: inyectamos un <script> con callback para leer la respuesta.
+  const cbName='_loscb_'+Date.now();
+  const script=document.createElement('script');
+  const timer=setTimeout(()=>{
+    cleanup();
+    setMsg(loadEl,'❌ Tiempo de espera agotado — revisa la URL');
+    showToast('Sin respuesta del servidor','error');
+  },12000);
+
+  function cleanup(){
+    try{document.head.removeChild(script);}catch(_){}
+    delete window[cbName];
+    clearTimeout(timer);
+  }
+
+  window[cbName]=function(data){
+    cleanup();
 
     // ── Life OS data ──
     if(data.lifeOS){
@@ -1204,17 +1518,75 @@ async function loadFromSheets(){
     setMsg(status,'Cargado: '+t);
     setMsg(loadEl,'✅ Datos cargados: '+t);
     showToast('Datos cargados desde Sheets ✓','success');
-  }catch(err){
-    const msg=err.message.includes('JSON')?'El Apps Script no retorna JSON — actualiza el doGet':'Error al cargar: '+err.message;
-    setMsg(loadEl,'❌ '+msg);
-    showToast(msg,'error');
-    console.error('loadFromSheets:',err);
-  }
+  };
+
+  script.onerror=function(){
+    cleanup();
+    setMsg(loadEl,'❌ Error al conectar — revisa la URL y el deployment');
+    showToast('Error al conectar con Sheets','error');
+  };
+
+  script.src=url+'?callback='+cbName+'&v='+Date.now();
+  document.head.appendChild(script);
 }
 
 // Vincular botones
 document.getElementById('loadSidebarBtn').addEventListener('click',loadFromSheets);
 document.getElementById('loadFromSheetsBtn')&&document.getElementById('loadFromSheetsBtn').addEventListener('click',loadFromSheets);
+
+/* ══ DIAGNÓSTICO DE CONEXIÓN ════════════════════════════ */
+document.getElementById('diagBtn').addEventListener('click',()=>{
+  const url=load('sheetsUrl','');
+  const box=document.getElementById('diagResult');
+  box.style.display='block';
+  const log=(msg,ok)=>box.innerHTML+=`<div style="color:${ok===true?'var(--green)':ok===false?'var(--red)':'var(--muted2)'}">${msg}</div>`;
+  box.innerHTML='';
+  log('🔍 Iniciando diagnóstico…');
+
+  // 1. URL guardada
+  if(!url){log('❌ No hay URL guardada. Ve arriba y pega la URL de Apps Script.',false);return;}
+  log('✅ URL guardada: '+url.slice(0,60)+'…',true);
+  if(!url.includes('script.google.com')){log('❌ La URL no parece ser de Apps Script.',false);return;}
+  if(!url.endsWith('/exec')){log('⚠️ La URL no termina en /exec — puede ser incorrecta.',null);}
+
+  // 2. Test GET con JSONP
+  log('⏳ Probando GET (doGet)…');
+  const cbName='_diag_'+Date.now();
+  const script=document.createElement('script');
+  const timer=setTimeout(()=>{
+    try{document.head.removeChild(script);}catch(_){}
+    delete window[cbName];
+    log('❌ GET: sin respuesta en 10s. Causas posibles:',false);
+    log('   • El Apps Script no tiene la función doGet',null);
+    log('   • El deployment no es "Anyone" (cualquier usuario)',null);
+    log('   • La URL es de un deployment antiguo — crea uno nuevo',null);
+  },10000);
+
+  window[cbName]=function(data){
+    clearTimeout(timer);
+    try{document.head.removeChild(script);}catch(_){}
+    delete window[cbName];
+    log('✅ GET respondió correctamente (JSONP funciona)',true);
+    if(data.lifeOS)log('✅ Hoja "Life OS" encontrada con datos',true);
+    else log('⚠️ Hoja "Life OS" vacía o no existe aún (se crea al hacer Sync)',null);
+    if(data.finanzas&&data.finanzas.length>0)log(`✅ Hoja "Finanzas" encontrada: ${data.finanzas.length} filas`,true);
+    else log('⚠️ Hoja "Finanzas" vacía o no existe aún (se crea al exportar)',null);
+    log('');
+    log('📋 Resumen: la conexión GET funciona.',true);
+    log('   Para el POST: presiona "☁️ Sync to Sheets" y revisa tu Google Sheet.',null);
+  };
+  script.onerror=()=>{
+    clearTimeout(timer);
+    try{document.head.removeChild(script);}catch(_){}
+    delete window[cbName];
+    log('❌ GET falló. Posibles causas:',false);
+    log('   • El deployment no existe o fue eliminado',null);
+    log('   • Access configurado como "Only myself" en vez de "Anyone"',null);
+    log('   • URL incorrecta — ¿copiaste la URL de /exec?',null);
+  };
+  script.src=url+'?callback='+cbName+'&v='+Date.now();
+  document.head.appendChild(script);
+});
 
 /* ════════════════════════════════════════════════════════
    FINANZAS MODULE
@@ -1479,12 +1851,15 @@ document.getElementById('addAntBtn').addEventListener('click',()=>{
 });
 
 /* ── SYNC FINANZAS ── */
-document.getElementById('syncFinanzasBtn').addEventListener('click',()=>{
+document.getElementById('syncFinanzasBtn').addEventListener('click',async()=>{
   const url=load('sheetsUrl','');
   if(!url){showToast('Conecta Google Sheets primero','error');return;}
+  const btn=document.getElementById('syncFinanzasBtn');
+  btn.disabled=true;btn.textContent='⟳ Enviando…';
   const daily=getDailyExp();
   const payload={type:'finanzas',date:finToday(),daily_total:daily.reduce((s,e)=>s+e.amt,0),daily_expenses:daily,ant_total:getAnts().reduce((s,a)=>s+(a.freq*a.unit),0),debt_payments:getDebtPayments().filter(p=>p.date===finToday())};
-  fetch(url,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});
+  await postToSheets(url,payload);
+  btn.disabled=false;btn.textContent='☁️ Exportar a Sheets';
   showToast('Datos de finanzas enviados ✓','success');
 });
 </script>
