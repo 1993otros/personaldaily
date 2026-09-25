@@ -128,7 +128,33 @@ img{max-width:100%;}
 .sched-check{width:18px;height:18px;border:2px solid var(--border2);border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
 .sched-item.done .sched-check{background:var(--green);border-color:var(--green);}
 .sched-item.done .sched-check::after{content:'✓';font-size:11px;color:#fff;font-weight:700;}
-.sched-text{font-size:12.5px;line-height:1.45;}
+.sched-text{font-size:12.5px;line-height:1.45;flex:1;}
+.sched-item{position:relative;}
+.sched-actions{display:flex;gap:3px;margin-left:6px;opacity:0;transition:opacity .15s;flex-shrink:0;align-items:center;}
+.sched-item:hover .sched-actions,.sched-item.editing .sched-actions{opacity:1;}
+.sched-edit-btn,.sched-del-btn{background:none;border:none;cursor:pointer;font-size:11px;padding:3px 5px;border-radius:4px;color:var(--muted);transition:color .15s;line-height:1;}
+.sched-edit-btn:hover{color:var(--accent2);}
+.sched-del-btn:hover{color:var(--red);}
+.sched-text[contenteditable="true"]{outline:1px solid var(--accent);border-radius:4px;padding:2px 4px;}
+.sched-add-btn{display:flex;align-items:center;gap:6px;margin-top:10px;padding:8px 14px;border-radius:8px;border:1px dashed var(--border2);background:none;color:var(--muted);font-size:12px;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;width:100%;justify-content:center;}
+.sched-add-btn:hover{border-color:var(--accent);color:var(--accent2);}
+/* Week Goals */
+.week-goals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px;}
+.week-goal-input{background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-family:'Inter',sans-serif;font-size:12.5px;color:var(--text);resize:none;min-height:68px;transition:border-color .15s;width:100%;}
+.week-goal-input:focus{outline:none;border-color:var(--accent);}
+/* Day tasks */
+.week-task-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);margin-bottom:6px;}
+.week-task-item.done .week-task-text{text-decoration:line-through;color:var(--muted);}
+.week-task-check{width:16px;height:16px;border:2px solid var(--border2);border-radius:4px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.week-task-item.done .week-task-check{background:var(--green);border-color:var(--green);}
+.week-task-item.done .week-task-check::after{content:'✓';font-size:10px;color:#fff;font-weight:700;}
+.week-task-text{font-size:13px;flex:1;}
+.week-task-del{background:none;border:none;cursor:pointer;color:var(--muted);font-size:13px;padding:2px 4px;border-radius:4px;opacity:0;transition:opacity .15s;}
+.week-task-item:hover .week-task-del{opacity:1;}
+.week-task-del:hover{color:var(--red);}
+/* Day visibility */
+.day-vis-section{margin-top:14px;padding-top:12px;border-top:1px solid var(--border);}
+.day-vis-label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase;}
 
 /* ── INPUTS ── */
 .field-group{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
@@ -560,15 +586,43 @@ img{max-width:100%;}
 
       <!-- TAB: Semana -->
       <div class="daily-tab-panel active" id="dtab-semana">
+        <!-- Metas de la semana -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">🎯 Metas de la semana</div>
+          </div>
+          <div class="week-goals-grid">
+            <textarea class="week-goal-input" id="wg0" placeholder="Meta 1 esta semana…"></textarea>
+            <textarea class="week-goal-input" id="wg1" placeholder="Meta 2 esta semana…"></textarea>
+            <textarea class="week-goal-input" id="wg2" placeholder="Meta 3 esta semana…"></textarea>
+          </div>
+        </div>
+        <!-- Bloques del día -->
         <div class="card">
           <div class="card-header">
             <div>
-              <div class="card-title">Weekly Control Center</div>
-              <div class="card-desc">A missed block is never tomorrow's debt. Execute and move on.</div>
+              <div class="card-title">📅 Bloques del día</div>
+              <div class="card-desc">Haz clic para marcar · ✏️ editar · ✕ eliminar</div>
             </div>
           </div>
           <div class="day-tabs" id="dayTabs"></div>
           <div class="schedule-grid" id="schedGrid"></div>
+          <button class="sched-add-btn" id="schedAddBtn">＋ Agregar bloque</button>
+          <div class="day-vis-section">
+            <div class="day-vis-label">Días visibles</div>
+            <div class="day-tabs" id="dayVisPicker"></div>
+          </div>
+        </div>
+        <!-- Tareas del día -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">✅ Tareas del día</div>
+          </div>
+          <div id="weekTasksList"></div>
+          <div class="field-row" style="margin-top:10px;gap:8px">
+            <input type="text" class="field-input" id="newTaskInput" placeholder="Nueva tarea para este día…">
+            <button id="addTaskBtn" style="padding:9px 16px;border-radius:8px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:14px;font-family:inherit;font-weight:700;flex-shrink:0">＋</button>
+          </div>
         </div>
       </div>
 
@@ -1295,29 +1349,81 @@ const dayTabs=document.getElementById('dayTabs');
 const schedGrid=document.getElementById('schedGrid');
 let selectedDay=load('selectedDay')||(()=>{const days=Object.keys(WEEK);const idx=new Date().getDay();return days[idx===0?6:idx-1]||'Monday';})();
 
+function getVisibleDays(){try{const v=JSON.parse(load('visibleDays','null'));if(Array.isArray(v))return v;}catch(_){}return Object.keys(WEEK);}
+function saveVisibleDays(arr){store('visibleDays',JSON.stringify(arr));}
+
 function buildDayTabs(){
   dayTabs.innerHTML='';
   const od=getOfficeDays();
-  Object.keys(WEEK).forEach(day=>{
+  const vis=getVisibleDays();
+  Object.keys(WEEK).filter(d=>vis.includes(d)).forEach(day=>{
     const btn=document.createElement('button');
     btn.className='day-tab'+(day===selectedDay?' active':'');
     const isOffice=od.includes(day);
     btn.innerHTML=day.slice(0,3)+(isOffice?' <span style="font-size:9px;opacity:.8">🏢</span>':'');
     btn.title=day+(isOffice?' · Oficina':'');
-    btn.addEventListener('click',()=>{selectedDay=day;store('selectedDay',day);document.querySelectorAll('.day-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSchedule();});
+    btn.addEventListener('click',()=>{selectedDay=day;store('selectedDay',day);document.querySelectorAll('#dayTabs .day-tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderSchedule();renderDayTasks();});
     dayTabs.appendChild(btn);
+  });
+  buildDayVisPicker();
+}
+
+function buildDayVisPicker(){
+  const picker=document.getElementById('dayVisPicker');
+  if(!picker)return;
+  picker.innerHTML='';
+  const vis=getVisibleDays();
+  Object.keys(WEEK).forEach(day=>{
+    const on=vis.includes(day);
+    const btn=document.createElement('button');
+    btn.className='day-tab'+(on?' active':'');
+    btn.textContent=day.slice(0,3);
+    btn.title='Mostrar/ocultar '+day;
+    btn.addEventListener('click',()=>{
+      const v=getVisibleDays();
+      const idx=v.indexOf(day);
+      if(idx>=0&&v.length>1)v.splice(idx,1);
+      else if(idx<0)v.push(day);
+      saveVisibleDays(v);
+      if(!v.includes(selectedDay)){selectedDay=v[0];store('selectedDay',selectedDay);}
+      buildDayTabs();renderSchedule();renderDayTasks();
+      showToast('Días actualizados ✓','success');
+    });
+    picker.appendChild(btn);
   });
 }
 
+function getSchedItems(day){const k='sched-items-'+day;try{const v=JSON.parse(load(k,'null'));if(Array.isArray(v))return v;}catch(_){}return[...WEEK[day]];}
+function saveSchedItems(day,arr){store('sched-items-'+day,JSON.stringify(arr));}
+
 function renderSchedule(){
   schedGrid.innerHTML='';
-  WEEK[selectedDay].forEach((task,i)=>{
-    const key=`sched-${selectedDay}-${i}`;
-    const done=load(key)==='true';
+  const items=getSchedItems(selectedDay);
+  items.forEach((task,i)=>{
+    const doneKey=`sched-${selectedDay}-${i}`;
+    const done=load(doneKey)==='true';
     const el=document.createElement('div');
     el.className='sched-item'+(done?' done':'');
-    el.innerHTML=`<div class="sched-check"></div><div class="sched-text">${task}</div>`;
-    el.addEventListener('click',()=>{const isDone=!el.classList.contains('done');el.classList.toggle('done',isDone);store(key,isDone);updateProgress();});
+    el.innerHTML=`<div class="sched-check"></div><div class="sched-text">${task}</div><div class="sched-actions"><button class="sched-edit-btn" data-i="${i}" title="Editar">✏️</button><button class="sched-del-btn" data-i="${i}" title="Eliminar">✕</button></div>`;
+    // Toggle done
+    el.querySelector('.sched-check').addEventListener('click',e=>{e.stopPropagation();const isDone=!el.classList.contains('done');el.classList.toggle('done',isDone);store(doneKey,isDone);updateProgress();});
+    // Edit
+    el.querySelector('.sched-edit-btn').addEventListener('click',e=>{
+      e.stopPropagation();
+      const textEl=el.querySelector('.sched-text');
+      const editing=textEl.contentEditable==='true';
+      if(editing){
+        const newVal=textEl.textContent.trim()||task;
+        const arr=getSchedItems(selectedDay);arr[i]=newVal;saveSchedItems(selectedDay,arr);
+        textEl.contentEditable='false';e.target.textContent='✏️';el.classList.remove('editing');
+      }else{
+        textEl.contentEditable='true';textEl.focus();
+        const range=document.createRange();range.selectNodeContents(textEl);const sel=window.getSelection();sel.removeAllRanges();sel.addRange(range);
+        e.target.textContent='💾';el.classList.add('editing');
+      }
+    });
+    // Delete
+    el.querySelector('.sched-del-btn').addEventListener('click',e=>{e.stopPropagation();const arr=getSchedItems(selectedDay);arr.splice(i,1);saveSchedItems(selectedDay,arr);renderSchedule();});
     schedGrid.appendChild(el);
   });
   updateProgress();
@@ -1343,6 +1449,69 @@ function renderOfficePicker(){
   });
 }
 renderOfficePicker();
+
+/* ══ SEMANA: METAS, TAREAS, ADD BLOQUE ══════════════════ */
+
+// Metas semanales
+['wg0','wg1','wg2'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.value=load('weekgoal-'+id,'');
+  el.addEventListener('input',()=>store('weekgoal-'+id,el.value));
+});
+
+// Agregar bloque al día
+document.getElementById('schedAddBtn').addEventListener('click',()=>{
+  const arr=getSchedItems(selectedDay);
+  arr.push('⏰ Nuevo bloque');
+  saveSchedItems(selectedDay,arr);
+  renderSchedule();
+  // Auto-activar edición del último ítem
+  const items=schedGrid.querySelectorAll('.sched-item');
+  const last=items[items.length-1];
+  if(last)last.querySelector('.sched-edit-btn')?.click();
+});
+
+// Tareas por día
+function getWeekTasks(day){try{return JSON.parse(load('week-tasks-'+day,'[]'))||[];}catch(_){return[];}}
+function saveWeekTasks(day,arr){store('week-tasks-'+day,JSON.stringify(arr));}
+
+function renderDayTasks(){
+  const list=document.getElementById('weekTasksList');
+  if(!list)return;
+  const tasks=getWeekTasks(selectedDay);
+  list.innerHTML='';
+  if(!tasks.length){
+    list.innerHTML='<div style="color:var(--muted);font-size:12px;padding:6px 0">Sin tareas hoy. Agrega una abajo.</div>';
+    return;
+  }
+  tasks.forEach((task,i)=>{
+    const row=document.createElement('div');
+    row.className='week-task-item'+(task.done?' done':'');
+    row.innerHTML=`<div class="week-task-check"></div><div class="week-task-text">${task.text}</div><button class="week-task-del" data-i="${i}">✕</button>`;
+    row.querySelector('.week-task-check').addEventListener('click',()=>{const t=getWeekTasks(selectedDay);t[i].done=!t[i].done;saveWeekTasks(selectedDay,t);renderDayTasks();});
+    row.querySelector('.week-task-del').addEventListener('click',()=>{const t=getWeekTasks(selectedDay);t.splice(i,1);saveWeekTasks(selectedDay,t);renderDayTasks();});
+    list.appendChild(row);
+  });
+}
+
+document.getElementById('addTaskBtn').addEventListener('click',()=>{
+  const inp=document.getElementById('newTaskInput');
+  const text=inp.value.trim();
+  if(!text){showToast('Escribe una tarea','error');return;}
+  const t=getWeekTasks(selectedDay);
+  t.push({text,done:false});
+  saveWeekTasks(selectedDay,t);
+  inp.value='';
+  renderDayTasks();
+  showToast('Tarea agregada ✓','success');
+});
+
+document.getElementById('newTaskInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter')document.getElementById('addTaskBtn').click();
+});
+
+renderDayTasks();
 
 /* ══ TEXT FIELDS ═════════════════════════════════════════ */
 document.querySelectorAll('.save').forEach(f=>{
