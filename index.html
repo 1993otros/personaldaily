@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!-- v12 Daily Board consolidation -->
 <html lang="es" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -373,6 +373,48 @@ img{max-width:100%;}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:99;}
 .overlay.show{display:block;}
 
+/* ── CONFIG SECTION ── */
+.config-table{width:100%;border-collapse:collapse;font-size:13px;}
+.config-table th{text-align:left;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);padding:0 8px 8px;border-bottom:1px solid var(--border2);}
+.config-table td{padding:7px 8px;border-bottom:1px solid var(--border);}
+.config-table tr:last-child td{border-bottom:none;}
+.config-input{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:6px 9px;font-family:'Inter',sans-serif;font-size:12px;color:var(--text);}
+.config-input:focus{outline:none;border-color:var(--accent);}
+.config-save-btn{padding:9px 20px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-top:12px;transition:opacity .15s;}
+.config-save-btn:hover{opacity:.85;}
+.config-add-btn{padding:6px 14px;background:var(--surface2);color:var(--muted2);border:1px solid var(--border2);border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-top:8px;transition:all .15s;}
+.config-add-btn:hover{border-color:var(--accent);color:var(--accent2);}
+.config-del-btn{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:0 4px;transition:color .15s;}
+.config-del-btn:hover{color:var(--red);}
+
+/* ── RUEDA DE LA VIDA ── */
+.rueda-wrap{display:flex;flex-direction:column;align-items:center;gap:20px;}
+.rueda-svg{max-width:500px;width:100%;}
+.rueda-sliders{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:500px;}
+.rueda-slider-row{display:flex;align-items:center;gap:10px;font-size:12px;}
+.rueda-slider-label{width:90px;font-weight:500;color:var(--muted2);}
+.rueda-slider{flex:1;accent-color:var(--accent);}
+.rueda-slider-val{width:20px;text-align:right;font-weight:700;color:var(--accent2);font-variant-numeric:tabular-nums;}
+
+/* ── PROGRESS BOARD ── */
+.progress-board{display:flex;flex-direction:column;gap:10px;}
+.pb-row{display:flex;align-items:center;gap:12px;font-size:12px;}
+.pb-label{width:140px;font-weight:500;color:var(--muted2);flex-shrink:0;}
+.pb-bar-wrap{flex:1;height:6px;background:var(--surface2);border-radius:10px;overflow:hidden;}
+.pb-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:10px;transition:width .4s;}
+.pb-pct{width:32px;text-align:right;font-weight:700;color:var(--text);font-variant-numeric:tabular-nums;}
+.pb-dots{display:flex;gap:4px;align-items:center;margin-top:6px;}
+.pb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.streak-badge{display:inline-flex;align-items:center;gap:6px;background:var(--amber-bg);border:1px solid rgba(245,158,11,.25);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--amber);}
+
+/* ── DAILY BOARD TABS ── */
+.daily-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.daily-tab{padding:7px 16px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--muted2);font-size:12px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.daily-tab:hover{color:var(--text);border-color:var(--accent);}
+.daily-tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.daily-tab-panel{display:none;}
+.daily-tab-panel.active{display:block;}
+
 /* ── TOAST ── */
 .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--surface);border:1px solid var(--border2);border-radius:10px;padding:11px 20px;font-size:13px;font-weight:500;z-index:999;transition:transform .25s;box-shadow:0 8px 32px rgba(0,0,0,0.3);white-space:nowrap;}
 .toast.show{transform:translateX(-50%) translateY(0);}
@@ -392,17 +434,13 @@ img{max-width:100%;}
   <nav class="sidebar-nav">
     <div class="nav-section-label">Daily</div>
     <button class="nav-item active" data-section="overview"><span class="nav-icon">⚡</span> Overview</button>
-    <button class="nav-item" data-section="week"><span class="nav-icon">📅</span> Weekly Plan</button>
-    <button class="nav-item" data-section="morning"><span class="nav-icon">🌅</span> Morning Ritual</button>
-    <div class="nav-section-label" style="margin-top:10px">Goals</div>
-    <button class="nav-item" data-section="english"><span class="nav-icon">🇬🇧</span> English</button>
-    <button class="nav-item" data-section="career"><span class="nav-icon">🚀</span> Career</button>
-    <button class="nav-item" data-section="work"><span class="nav-icon">💼</span> Work OS</button>
+    <button class="nav-item" data-section="daily"><span class="nav-icon">📋</span> Daily Board</button>
     <div class="nav-section-label" style="margin-top:10px">Finance</div>
     <button class="nav-item" data-section="finanzas"><span class="nav-icon">💰</span> Finanzas</button>
-    <div class="nav-section-label" style="margin-top:10px">Reflect</div>
-    <button class="nav-item" data-section="review"><span class="nav-icon">🪞</span> End-of-Day</button>
+    <div class="nav-section-label" style="margin-top:10px">Tools</div>
     <button class="nav-item" data-section="sheets"><span class="nav-icon">📊</span> Google Sheets</button>
+    <button class="nav-item" data-section="rueda"><span class="nav-icon">🎯</span> Rueda de la Vida</button>
+    <button class="nav-item" data-section="config"><span class="nav-icon">⚙️</span> Configuración</button>
   </nav>
   <div class="sidebar-footer">
     <button class="sync-btn" id="syncBtn"><span>☁️</span> Sync to Sheets</button>
@@ -483,6 +521,21 @@ img{max-width:100%;}
           <div class="field-row"><div class="win-num">3</div><input class="field-input save" id="win3" placeholder="How I will protect my energy"></div>
         </div>
       </div>
+      <!-- PROGRESS BOARD -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Tablero de Avance</div>
+            <div class="card-desc">Progreso por pilar · últimos 7 días</div>
+          </div>
+          <div id="winsStreakBadge"></div>
+        </div>
+        <div class="progress-board" id="progressBoard"></div>
+        <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+          <div style="font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Últimos 7 días · 3 Wins</div>
+          <div class="pb-dots" id="winsHistory7"></div>
+        </div>
+      </div>
       <!-- WEEKLY CALENDAR -->
       <div class="card" id="weekCalCard">
         <div class="card-header">
@@ -495,85 +548,103 @@ img{max-width:100%;}
       </div>
     </div>
 
-    <!-- WEEK -->
-    <div class="section" id="sec-week">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Weekly Control Center</div>
-            <div class="card-desc">A missed block is never tomorrow's debt. Execute and move on.</div>
-          </div>
-        </div>
-        <div class="day-tabs" id="dayTabs"></div>
-        <div class="schedule-grid" id="schedGrid"></div>
+    <!-- DAILY BOARD -->
+    <div class="section" id="sec-daily">
+      <div class="daily-tabs">
+        <button class="daily-tab active" data-dtab="semana">🗓️ Semana</button>
+        <button class="daily-tab" data-dtab="manana">🌅 Mañana</button>
+        <button class="daily-tab" data-dtab="english">🇬🇧 English</button>
+        <button class="daily-tab" data-dtab="carrera">🚀 Carrera</button>
+        <button class="daily-tab" data-dtab="cierre">🪞 Cierre del Día</button>
       </div>
-    </div>
 
-    <!-- MORNING -->
-    <div class="section" id="sec-morning">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Morning Ritual</div>
-            <div class="card-desc">6:00 – 8:00 AM · Personal construction time</div>
+      <!-- TAB: Semana -->
+      <div class="daily-tab-panel active" id="dtab-semana">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Weekly Control Center</div>
+              <div class="card-desc">A missed block is never tomorrow's debt. Execute and move on.</div>
+            </div>
           </div>
-        </div>
-        <div class="timeline">
-          <div class="tl-item"><div class="tl-time">6:00–7:00</div><div class="tl-label">🏋️ Training</div></div>
-          <div class="tl-item"><div class="tl-time">7:00–7:10</div><div class="tl-label">🧘 Meditation</div></div>
-          <div class="tl-item"><div class="tl-time">7:10–7:20</div><div class="tl-label">✍️ Journal</div></div>
-          <div class="tl-item"><div class="tl-time">7:20–7:40</div><div class="tl-label">📚 Reading</div></div>
-          <div class="tl-item"><div class="tl-time">7:40–8:00</div><div class="tl-label">❄️ Cold water + shower + transition</div></div>
+          <div class="day-tabs" id="dayTabs"></div>
+          <div class="schedule-grid" id="schedGrid"></div>
         </div>
       </div>
-    </div>
 
-    <!-- ENGLISH -->
-    <div class="section" id="sec-english">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">English Is Part of My Life</div>
-            <div class="card-desc">TOEFL is training. English is a lifestyle.</div>
+      <!-- TAB: Mañana -->
+      <div class="daily-tab-panel" id="dtab-manana">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Morning Ritual</div>
+              <div class="card-desc">6:00 – 8:00 AM · Personal construction time</div>
+            </div>
           </div>
-        </div>
-        <div class="habit-list" id="habitList"></div>
-      </div>
-    </div>
-
-    <!-- CAREER -->
-    <div class="section" id="sec-career">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Next Career Move</div>
-            <div class="card-desc">Measure outcomes, not time scrolling boards.</div>
-          </div>
-        </div>
-        <div class="career-grid">
-          <div class="career-box"><input type="number" class="career-num-input save" id="jobs" min="0" value="0"><div class="career-box-label">Opportunities identified</div></div>
-          <div class="career-box"><input type="number" class="career-num-input save" id="applications" min="0" value="0"><div class="career-box-label">Quality applications</div></div>
-          <div class="career-box"><input type="number" class="career-num-input save" id="contacts" min="0" value="0"><div class="career-box-label">Strategic contacts</div></div>
-          <div class="career-box"><input type="number" class="career-num-input save" id="interviews" min="0" value="0"><div class="career-box-label">Interviews / conversations</div></div>
+          <div class="habit-list" id="morningList"></div>
         </div>
       </div>
-    </div>
 
-    <!-- WORK -->
-    <div class="section" id="sec-work">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">Professional Operating System</div>
-            <div class="card-desc">Every workday at 9:00 AM — define three outcomes.</div>
+      <!-- TAB: English -->
+      <div class="daily-tab-panel" id="dtab-english">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">English Is Part of My Life</div>
+              <div class="card-desc">TOEFL is training. English is a lifestyle.</div>
+            </div>
+          </div>
+          <div class="habit-list" id="habitList"></div>
+        </div>
+      </div>
+
+      <!-- TAB: Carrera -->
+      <div class="daily-tab-panel" id="dtab-carrera">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Next Career Move</div>
+              <div class="card-desc">Measure outcomes, not time scrolling boards.</div>
+            </div>
+          </div>
+          <div class="career-grid">
+            <div class="career-box"><input type="number" class="career-num-input save" id="jobs" min="0" value="0"><div class="career-box-label">Opportunities identified</div></div>
+            <div class="career-box"><input type="number" class="career-num-input save" id="applications" min="0" value="0"><div class="career-box-label">Quality applications</div></div>
+            <div class="career-box"><input type="number" class="career-num-input save" id="contacts" min="0" value="0"><div class="career-box-label">Strategic contacts</div></div>
+            <div class="career-box"><input type="number" class="career-num-input save" id="interviews" min="0" value="0"><div class="career-box-label">Interviews / conversations</div></div>
           </div>
         </div>
-        <div class="field-group">
-          <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">1</div><input class="field-input save" id="work1" placeholder="Outcome #1"></div>
-          <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">2</div><input class="field-input save" id="work2" placeholder="Outcome #2"></div>
-          <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">3</div><input class="field-input save" id="work3" placeholder="Outcome #3"></div>
+        <div class="card" style="margin-top:16px">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Professional Operating System</div>
+              <div class="card-desc">Every workday at 9:00 AM — define three outcomes.</div>
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">1</div><input class="field-input save" id="work1" placeholder="Outcome #1"></div>
+            <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">2</div><input class="field-input save" id="work2" placeholder="Outcome #2"></div>
+            <div class="field-row"><div class="win-num" style="background:var(--green-bg);color:var(--green)">3</div><input class="field-input save" id="work3" placeholder="Outcome #3"></div>
+          </div>
+          <div class="work-rule">Do not measure how busy you were.<br>Measure what you <em>closed</em>.</div>
         </div>
-        <div class="work-rule">Do not measure how busy you were.<br>Measure what you <em>closed</em>.</div>
+      </div>
+
+      <!-- TAB: Cierre del Día -->
+      <div class="daily-tab-panel" id="dtab-cierre">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Cierre del Día</div>
+              <div class="card-desc">No guilt. Use evidence to improve tomorrow's system.</div>
+            </div>
+          </div>
+          <div class="review-grid">
+            <div class="review-field"><label>What did I accomplish?</label><textarea class="field-textarea save" id="review1" placeholder="Accomplishments…"></textarea></div>
+            <div class="review-field"><label>What didn't happen, and why?</label><textarea class="field-textarea save" id="review2" placeholder="Gaps and context…"></textarea></div>
+            <div class="review-field"><label>What will I change tomorrow?</label><textarea class="field-textarea save" id="review3" placeholder="Adjustments…"></textarea></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -588,11 +659,11 @@ img{max-width:100%;}
       </div>
 
       <div class="fin-kpi-row">
-        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Ingresos</div><div class="kpi-value">$7.62M</div><div class="kpi-sub">/ mes</div></div>
-        <div class="kpi" style="--kpi-accent:var(--amber)"><div class="kpi-label">Gastos fijos</div><div class="kpi-value">$3.57M</div><div class="kpi-sub">46.8% del ingreso</div></div>
-        <div class="kpi" style="--kpi-accent:var(--blue)"><div class="kpi-label">Flujo libre</div><div class="kpi-value">$4.06M</div><div class="kpi-sub">antes de deuda</div></div>
-        <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Total deuda</div><div class="kpi-value">$44.25M</div><div class="kpi-sub">5.8× ingreso mensual</div></div>
-        <div class="kpi" style="--kpi-accent:var(--accent2)"><div class="kpi-label">Cuota mínima</div><div class="kpi-value">$608K</div><div class="kpi-sub">suma de mínimos</div></div>
+        <div class="kpi" style="--kpi-accent:var(--green)"><div class="kpi-label">Ingresos</div><div class="kpi-value" id="finKpiIngresos">$7.62M</div><div class="kpi-sub">/ mes</div></div>
+        <div class="kpi" style="--kpi-accent:var(--amber)"><div class="kpi-label">Gastos fijos</div><div class="kpi-value" id="finKpiGastos">$3.57M</div><div class="kpi-sub" id="finKpiGastosSub">46.8% del ingreso</div></div>
+        <div class="kpi" style="--kpi-accent:var(--blue)"><div class="kpi-label">Flujo libre</div><div class="kpi-value" id="finKpiLibre">$4.06M</div><div class="kpi-sub">antes de deuda</div></div>
+        <div class="kpi" style="--kpi-accent:var(--red)"><div class="kpi-label">Total deuda</div><div class="kpi-value" id="finKpiDeuda">$44.25M</div><div class="kpi-sub" id="finKpiDeudaSub">5.8× ingreso mensual</div></div>
+        <div class="kpi" style="--kpi-accent:var(--accent2)"><div class="kpi-label">Cuota mínima</div><div class="kpi-value" id="finKpiCuota">$608K</div><div class="kpi-sub">suma de mínimos</div></div>
       </div>
 
       <!-- FIN TABS -->
@@ -870,23 +941,6 @@ img{max-width:100%;}
       </div><!-- /fin tabs content -->
     </div><!-- /sec-finanzas -->
 
-    <!-- REVIEW -->
-    <div class="section" id="sec-review">
-      <div class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">End-of-Day Review</div>
-            <div class="card-desc">No guilt. Use evidence to improve tomorrow's system.</div>
-          </div>
-        </div>
-        <div class="review-grid">
-          <div class="review-field"><label>What did I accomplish?</label><textarea class="field-textarea save" id="review1" placeholder="Accomplishments…"></textarea></div>
-          <div class="review-field"><label>What didn't happen, and why?</label><textarea class="field-textarea save" id="review2" placeholder="Gaps and context…"></textarea></div>
-          <div class="review-field"><label>What will I change tomorrow?</label><textarea class="field-textarea save" id="review3" placeholder="Adjustments…"></textarea></div>
-        </div>
-      </div>
-    </div>
-
     <!-- SHEETS -->
     <div class="section" id="sec-sheets">
       <div class="card">
@@ -1020,6 +1074,60 @@ function doGet(e) {
       </div>
     </div>
 
+    <!-- RUEDA DE LA VIDA -->
+    <div class="section" id="sec-rueda">
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Rueda de la Vida</div>
+            <div class="card-desc">Evalúa cada área del 0 al 10 · el gráfico se actualiza en tiempo real</div>
+          </div>
+        </div>
+        <div class="rueda-wrap">
+          <svg class="rueda-svg" viewBox="0 0 500 500" id="ruedaSvg"></svg>
+          <div class="rueda-sliders" id="ruedaSliders"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONFIG -->
+    <div class="section" id="sec-config">
+      <div class="card">
+        <div class="card-title">💰 Ingresos Base</div>
+        <div class="card-desc">Ingresos mensuales fijos</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+          <div style="display:flex;align-items:center;gap:12px"><label style="width:140px;font-size:12px;color:var(--muted)">Salario</label><input type="number" class="config-input" id="cfgSalario" placeholder="7298000"></div>
+          <div style="display:flex;align-items:center;gap:12px"><label style="width:140px;font-size:12px;color:var(--muted)">Aporte papá</label><input type="number" class="config-input" id="cfgPapa" placeholder="125000"></div>
+          <div style="display:flex;align-items:center;gap:12px"><label style="width:140px;font-size:12px;color:var(--muted)">Otros ingresos</label><input type="number" class="config-input" id="cfgOtros" placeholder="200000"></div>
+        </div>
+        <button class="config-save-btn" id="saveIncomeBtn">Guardar Ingresos</button>
+      </div>
+      <div class="card">
+        <div class="card-title">💳 Deudas</div>
+        <div class="card-desc">Edita los saldos actuales y cuotas</div>
+        <div style="overflow-x:auto;margin-top:12px">
+          <table class="config-table" id="cfgDebtTable">
+            <thead><tr><th>Nombre</th><th>Saldo</th><th>Tasa</th><th>Cuota</th><th>Color</th><th></th></tr></thead>
+            <tbody id="cfgDebtBody"></tbody>
+          </table>
+        </div>
+        <button class="config-add-btn" id="addDebtRowBtn">+ Agregar deuda</button>
+        <button class="config-save-btn" id="saveDebtsBtn">Guardar Deudas</button>
+      </div>
+      <div class="card">
+        <div class="card-title">🏠 Gastos Fijos</div>
+        <div class="card-desc">Edita tus gastos fijos mensuales</div>
+        <div style="overflow-x:auto;margin-top:12px">
+          <table class="config-table" id="cfgFixedTable">
+            <thead><tr><th>Nombre</th><th>Día</th><th>Monto</th><th></th></tr></thead>
+            <tbody id="cfgFixedBody"></tbody>
+          </table>
+        </div>
+        <button class="config-add-btn" id="addFixedRowBtn">+ Agregar gasto fijo</button>
+        <button class="config-save-btn" id="saveFixedBtn">Guardar Gastos Fijos</button>
+      </div>
+    </div>
+
   </div><!-- /content -->
 </main>
 
@@ -1059,7 +1167,7 @@ document.getElementById('topbarDate').textContent=new Date().toLocaleDateString(
 document.getElementById('dailyDateLabel').textContent=new Date().toLocaleDateString('es-CO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 
 /* ══ NAV ═════════════════════════════════════════════════ */
-const TITLES={overview:'Overview',week:'Weekly Plan',morning:'Morning Ritual',english:'English',career:'Next Career Move',work:'Work OS',finanzas:'💰 Finanzas',review:'End-of-Day Review',sheets:'Google Sheets'};
+const TITLES={overview:'Overview',daily:'📋 Daily Board',finanzas:'💰 Finanzas',sheets:'Google Sheets',rueda:'🎯 Rueda de la Vida',config:'⚙️ Configuración'};
 function showSection(id){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -1073,7 +1181,30 @@ function showSection(id){
 document.querySelectorAll('.nav-item').forEach(btn=>{
   btn.addEventListener('click',()=>{showSection(btn.dataset.section);closeSidebar();});
 });
-showSection(load('activeSection','overview'));
+// Migrate old section keys to consolidated ones
+const _oldSectionMap={week:'daily',morning:'daily',english:'daily',career:'daily',work:'daily',review:'daily'};
+const _storedSection=load('activeSection','overview');
+showSection(_oldSectionMap[_storedSection]||_storedSection);
+
+/* ══ DAILY BOARD TABS ════════════════════════════════════ */
+(function(){
+  const savedDtab=load('activeDtab','semana');
+  document.querySelectorAll('.daily-tab').forEach(btn=>{
+    btn.classList.toggle('active', btn.dataset.dtab===savedDtab);
+  });
+  document.querySelectorAll('.daily-tab-panel').forEach(p=>{
+    p.classList.toggle('active', p.id==='dtab-'+savedDtab);
+  });
+  document.querySelectorAll('.daily-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.daily-tab').forEach(b=>b.classList.remove('active'));
+      document.querySelectorAll('.daily-tab-panel').forEach(p=>p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('dtab-'+btn.dataset.dtab).classList.add('active');
+      store('activeDtab', btn.dataset.dtab);
+    });
+  });
+})();
 
 /* ══ SIDEBAR MOBILE ══════════════════════════════════════ */
 const sidebar=document.getElementById('sidebar');
@@ -1091,6 +1222,23 @@ PILLARS.forEach((p,i)=>{
   el.innerHTML=`<div class="pillar-check"></div><div class="pillar-text">${p}</div>`;
   el.addEventListener('click',()=>{const done=!el.classList.contains('done');el.classList.toggle('done',done);store('pillar-'+i,done);updateProgress();});
   pillarsGrid.appendChild(el);
+});
+
+/* ══ MORNING RITUAL ══════════════════════════════════════ */
+const MORNING_ITEMS=[
+  {time:"6:00–7:00", label:"🏋️ Training"},
+  {time:"7:00–7:10", label:"🧘 Meditation"},
+  {time:"7:10–7:20", label:"✍️ Journal"},
+  {time:"7:20–7:40", label:"📚 Reading"},
+  {time:"7:40–8:00", label:"❄️ Cold water + shower + transition"}
+];
+const morningList=document.getElementById('morningList');
+MORNING_ITEMS.forEach((item,i)=>{
+  const el=document.createElement('div');
+  el.className='habit-item morning-item'+(load('morning-'+i)==='true'?' done':'');
+  el.innerHTML=`<div class="habit-check"></div><div class="habit-text"><span style="color:var(--muted);font-size:11px;margin-right:8px">${item.time}</span>${item.label}</div>`;
+  el.addEventListener('click',()=>{const done=!el.classList.contains('done');el.classList.toggle('done',done);store('morning-'+i,done);updateProgress();});
+  morningList.appendChild(el);
 });
 
 /* ══ ENGLISH HABITS ══════════════════════════════════════ */
@@ -1500,12 +1648,13 @@ function loadFromSheets(){
         const existing=getDebtPayments();
         const existingTs=new Set(existing.map(p=>String(p.ts)));
         let added=0;
+        const _DEBTS=getDebtsConfig();
         paymentRows.forEach(r=>{
           const ts=r.ts||r.timestamp||'';
           if(!existingTs.has(String(ts))){
-            const idx=DEBTS.findIndex(d=>d.name===(r.debtName||r.debt_name||''));
+            const idx=_DEBTS.findIndex(d=>d.name===(r.debtName||r.debt_name||''));
             if(idx>=0){
-              existing.push({debtName:DEBTS[idx].name,debtIndex:idx,monto:Number(r.monto||r.amount||0),date:r.date||finToday(),nota:r.nota||r.note||'',ts:ts||Date.now()});
+              existing.push({debtName:_DEBTS[idx].name,debtIndex:idx,monto:Number(r.monto||r.amount||0),date:r.date||finToday(),nota:r.nota||r.note||'',ts:ts||Date.now()});
               added++;
             }
           }
@@ -1603,20 +1752,59 @@ document.querySelectorAll('.fin-tab').forEach(btn=>{
   });
 });
 
+/* ── DYNAMIC CONFIG FUNCTIONS ── */
+function getDebtsConfig(){
+  try{return JSON.parse(fLoad('debts_config','null'))||[
+    {name:'Scotiabank Libre Inversión',rate:'24.75%',cuota:400000,saldo:15051000,color:'#EF4444'},
+    {name:'Visa Bancolombia',rate:'25.5%',cuota:194398,saldo:10300000,color:'#F97316'},
+    {name:'Davivienda',rate:'24.75%',cuota:222562,saldo:10400000,color:'#F59E0B'},
+    {name:'Master Bancolombia',rate:'25.5%',cuota:112878,saldo:5650000,color:'#A78BFA'},
+    {name:'Nu',rate:'25.5%',cuota:78272,saldo:2850000,color:'#38BDF8'},
+  ];}catch(_){return[];}
+}
+function getFixedConfig(){
+  try{return JSON.parse(fLoad('fixed_config','null'))||[
+    {name:'GPT',day:'17',amt:100000},{name:'Apple',day:'1',amt:13000},{name:'Spotify',day:'28',amt:30500},
+    {name:'Google',day:'12',amt:13000},{name:'Movistar',day:'15',amt:40000},{name:'Vanti',day:'5',amt:60000},
+    {name:'ENEL',day:'5',amt:350000},{name:'HV',day:'5',amt:100000},{name:'Agua',day:'5',amt:60000},
+    {name:'Maestría',day:'1',amt:0},{name:'Inglés TOEFL',day:'Cada 8 días',amt:800000},
+    {name:'Aseo y comida',day:'1 y 15',amt:300000},{name:'Transporte/almuerzo oficina',day:'Cada 8 días',amt:300000},
+    {name:'Viajes',day:'1',amt:200000},{name:'Otros',day:'1',amt:300000},{name:'Prestaciones',day:'1',amt:900000},
+  ];}catch(_){return[];}
+}
+function getIncomeConfig(){
+  try{return JSON.parse(fLoad('income_config','null'))||{salario:7298000,papa:125000,otros:200000};}
+  catch(_){return{salario:7298000,papa:125000,otros:200000};}
+}
+
 /* ── DEBTS ── */
-const DEBTS=[
-  {name:'Scotiabank Libre Inversión',rate:'24.75%',cuota:400000,saldo:15051000,color:'#EF4444'},
-  {name:'Visa Bancolombia',rate:'25.5%',cuota:194398,saldo:10300000,color:'#F97316'},
-  {name:'Davivienda',rate:'24.75%',cuota:222562,saldo:10400000,color:'#F59E0B'},
-  {name:'Master Bancolombia',rate:'25.5%',cuota:112878,saldo:5650000,color:'#A78BFA'},
-  {name:'Nu',rate:'25.5%',cuota:78272,saldo:2850000,color:'#38BDF8'},
-];
 
 function getDebtPayments(){try{return JSON.parse(fLoad('debt_payments','[]'))||[];}catch(_){return[];}}
 function saveDebtPayments(arr){fStore('debt_payments',JSON.stringify(arr));}
-function getDebtSaldo(idx){const d=DEBTS[idx];const all=getDebtPayments();const paid=all.filter(p=>p.debtIndex===idx).reduce((s,p)=>s+Number(p.monto),0);return Math.max(0,d.saldo-paid);}
+function getDebtSaldo(idx){const DEBTS=getDebtsConfig();const d=DEBTS[idx];if(!d)return 0;const all=getDebtPayments();const paid=all.filter(p=>p.debtIndex===idx).reduce((s,p)=>s+Number(p.monto),0);return Math.max(0,d.saldo-paid);}
+
+function renderFinKpis(){
+  const DEBTS=getDebtsConfig();
+  const FIXED=getFixedConfig();
+  const inc=getIncomeConfig();
+  const totalIngresos=Object.values(inc).reduce((s,v)=>s+Number(v),0);
+  const totalGastosFijos=FIXED.reduce((s,f)=>s+f.amt,0);
+  const totalDeuda=DEBTS.reduce((s,d,i)=>s+getDebtSaldo(i),0);
+  const totalCuota=DEBTS.reduce((s,d)=>s+d.cuota,0);
+  const flujoLibre=totalIngresos-totalGastosFijos;
+  const fmtM=n=>{if(Math.abs(n)>=1000000)return '$'+(n/1000000).toFixed(2)+'M';return fmt(n);};
+  const el=id=>document.getElementById(id);
+  if(el('finKpiIngresos'))el('finKpiIngresos').textContent=fmtM(totalIngresos);
+  if(el('finKpiGastos'))el('finKpiGastos').textContent=fmtM(totalGastosFijos);
+  if(el('finKpiGastosSub'))el('finKpiGastosSub').textContent=totalIngresos>0?Math.round(totalGastosFijos/totalIngresos*100)+'% del ingreso':'';
+  if(el('finKpiLibre'))el('finKpiLibre').textContent=fmtM(flujoLibre);
+  if(el('finKpiDeuda'))el('finKpiDeuda').textContent=fmtM(totalDeuda);
+  if(el('finKpiDeudaSub'))el('finKpiDeudaSub').textContent=totalIngresos>0?(totalDeuda/totalIngresos).toFixed(1)+'× ingreso mensual':'';
+  if(el('finKpiCuota'))el('finKpiCuota').textContent=fmtM(totalCuota);
+}
 
 function renderDebts(){
+  const DEBTS=getDebtsConfig();
   const dl=document.getElementById('debtList');
   dl.innerHTML='';
   const maxSaldo=Math.max(...DEBTS.map(d=>d.saldo));
@@ -1655,7 +1843,7 @@ function renderDebts(){
 
   // Fill debt table
   const tb=document.getElementById('debtTableBody');
-  if(tb){tb.innerHTML='';DEBTS.forEach(d=>{tb.innerHTML+=`<tr><td>${d.name}</td><td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(getDebtSaldo(DEBTS.indexOf(d)))}</td><td style="text-align:right;color:var(--red);font-variant-numeric:tabular-nums">${fmt(d.cuota)}</td><td style="text-align:right"><span class="badge badge-red">${d.rate}</span></td></tr>`;});}
+  if(tb){tb.innerHTML='';DEBTS.forEach((d,i)=>{tb.innerHTML+=`<tr><td>${d.name}</td><td style="text-align:right;font-variant-numeric:tabular-nums">${fmt(getDebtSaldo(i))}</td><td style="text-align:right;color:var(--red);font-variant-numeric:tabular-nums">${fmt(d.cuota)}</td><td style="text-align:right"><span class="badge badge-red">${d.rate}</span></td></tr>`;});}
 
   dl.querySelectorAll('.debt-pay-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{const idx=btn.dataset.idx;const form=document.getElementById('debtForm'+idx);form.classList.toggle('open');btn.textContent=form.classList.contains('open')?'✕ Cerrar':'💳 Registrar pago';});
@@ -1663,6 +1851,7 @@ function renderDebts(){
   dl.querySelectorAll('[data-save]').forEach(btn=>{
     btn.addEventListener('click',()=>{
       const idx=+btn.dataset.save;
+      const DEBTS=getDebtsConfig();
       const monto=+document.getElementById('debtAmt'+idx).value;
       const date=document.getElementById('debtDate'+idx).value;
       const nota=document.getElementById('debtNota'+idx).value.trim();
@@ -1672,38 +1861,34 @@ function renderDebts(){
       saveDebtPayments(all);
       showToast('Pago registrado ✓','success');
       renderDebts();
+      renderFinKpis();
     });
   });
   dl.querySelectorAll('[data-cancel]').forEach(btn=>{
     btn.addEventListener('click',()=>{const idx=btn.dataset.cancel;document.getElementById('debtForm'+idx).classList.remove('open');dl.querySelectorAll('.debt-pay-btn').forEach(b=>{if(b.dataset.idx===idx)b.textContent='💳 Registrar pago';});});
   });
+  renderFinKpis();
 }
 renderDebts();
 
 /* ── FIXED EXPENSES ── */
-const FIXED=[
-  {name:'GPT',day:'17',amt:100000},{name:'Apple',day:'1',amt:13000},{name:'Spotify',day:'28',amt:30500},
-  {name:'Google',day:'12',amt:13000},{name:'Movistar',day:'15',amt:40000},{name:'Vanti',day:'5',amt:60000},
-  {name:'ENEL',day:'5',amt:350000},{name:'HV',day:'5',amt:100000},{name:'Agua',day:'5',amt:60000},
-  {name:'Maestría',day:'1',amt:0},{name:'Inglés TOEFL',day:'Cada 8 días',amt:800000},
-  {name:'Aseo y comida',day:'1 y 15',amt:300000},{name:'Transporte/almuerzo oficina',day:'Cada 8 días',amt:300000},
-  {name:'Viajes',day:'1',amt:200000},{name:'Otros',day:'1',amt:300000},{name:'Prestaciones',day:'1',amt:900000},
-];
 function getFixedPaid(idx){return fLoad('fixed_paid_'+yearMonth()+'_'+idx,'0')==='1';}
 function setFixedPaid(idx,val){fStore('fixed_paid_'+yearMonth()+'_'+idx,val?'1':'0');}
 function getFixedPaymentsLog(){try{return JSON.parse(fLoad('fixed_payments','[]'))||[];}catch(_){return[];}}
 function saveFixedPaymentsLog(arr){fStore('fixed_payments',JSON.stringify(arr));}
 
 function updateFixedProgress(){
+  const FIXED=getFixedConfig();
   const paidCount=FIXED.reduce((c,_,i)=>c+(getFixedPaid(i)?1:0),0);
   document.getElementById('fixedPaidCount').textContent=paidCount+' / '+FIXED.length;
   document.getElementById('fixedProgFill').style.width=Math.round(paidCount/FIXED.length*100)+'%';
 }
 
 function renderFixed(){
+  const FIXED=getFixedConfig();
   const tbody=document.getElementById('fixedExpTable');
   tbody.innerHTML='';
-  const totalAmt=3566500;
+  const totalAmt=FIXED.reduce((s,f)=>s+f.amt,0)||1;
   FIXED.forEach((g,i)=>{
     const pct=totalAmt>0?(g.amt/totalAmt*100).toFixed(1):'0';
     const paid=getFixedPaid(i);
@@ -1714,6 +1899,7 @@ function renderFixed(){
   });
   tbody.querySelectorAll('.paid-checkbox').forEach(cb=>{
     cb.addEventListener('change',()=>{
+      const FIXED=getFixedConfig();
       const idx=+cb.dataset.fidx;
       setFixedPaid(idx,cb.checked);
       if(cb.checked){
@@ -1727,6 +1913,7 @@ function renderFixed(){
         saveFixedPaymentsLog(getFixedPaymentsLog().filter(p=>!(p.fixedIndex===idx&&p.yearMonth===yearMonth())));
       }
       renderFixed();
+      renderFinKpis();
     });
   });
   updateFixedProgress();
@@ -1849,6 +2036,241 @@ document.getElementById('addAntBtn').addEventListener('click',()=>{
   renderAnts();
   showToast('Hormiga agregada ✓','success');
 });
+
+/* ══ WINS HISTORY / PROGRESS BOARD ══════════════════════ */
+function getWinsHistory(){try{return JSON.parse(load('wins_history','[]'))||[];}catch(_){return[];}}
+function saveWinsHistory(arr){store('wins_history',JSON.stringify(arr));}
+function todayWinsCount(){const w1=(document.getElementById('win1')||{}).value||'';const w2=(document.getElementById('win2')||{}).value||'';const w3=(document.getElementById('win3')||{}).value||'';return [w1,w2,w3].filter(s=>s.trim().length>0).length;}
+function saveWinsForToday(){
+  const today=new Date().toISOString().slice(0,10);
+  const arr=getWinsHistory();
+  const idx=arr.findIndex(e=>e.date===today);
+  const count=todayWinsCount();
+  if(idx>=0)arr[idx].count=count;
+  else arr.push({date:today,count});
+  saveWinsHistory(arr);
+  renderProgressBoard();
+}
+// Hook wins inputs
+['win1','win2','win3'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el)el.addEventListener('input',()=>{store('field-'+id,el.value);saveWinsForToday();});
+});
+
+function renderProgressBoard(){
+  const board=document.getElementById('progressBoard');
+  if(!board)return;
+  // Pillar completion from today's pillar-cards
+  const pillars=Array.from(document.querySelectorAll('.pillar-card'));
+  const PILLAR_NAMES=['Body & Energy','English','Communication','Professional','AI Maestría','Career Move'];
+  board.innerHTML='';
+  pillars.forEach((p,i)=>{
+    const done=p.classList.contains('done')?1:0;
+    const pct=done*100;
+    const row=document.createElement('div');
+    row.className='pb-row';
+    row.innerHTML=`<div class="pb-label">${PILLAR_NAMES[i]||'Pilar '+(i+1)}</div><div class="pb-bar-wrap"><div class="pb-bar-fill" style="width:${pct}%"></div></div><div class="pb-pct">${pct}%</div>`;
+    board.appendChild(row);
+  });
+
+  // Streak
+  const hist=getWinsHistory();
+  const today=new Date().toISOString().slice(0,10);
+  let streak=0;
+  for(let i=0;i<90;i++){
+    const d=new Date();d.setDate(d.getDate()-i);
+    const k=d.toISOString().slice(0,10);
+    const entry=hist.find(e=>e.date===k);
+    if(entry&&entry.count>=3)streak++;
+    else if(k!==today)break;
+  }
+  const badge=document.getElementById('winsStreakBadge');
+  if(badge)badge.innerHTML=streak>0?`<span class="streak-badge">🔥 ${streak} días seguidos</span>`:'';
+
+  // Last 7 days dots
+  const dots=document.getElementById('winsHistory7');
+  if(dots){
+    dots.innerHTML='';
+    for(let i=6;i>=0;i--){
+      const d=new Date();d.setDate(d.getDate()-i);
+      const k=d.toISOString().slice(0,10);
+      const entry=hist.find(e=>e.date===k);
+      const count=entry?entry.count:0;
+      const color=count>=3?'var(--green)':count>0?'var(--amber)':'var(--border2)';
+      const label=new Date(k+'T12:00').toLocaleDateString('es-CO',{weekday:'short'});
+      dots.innerHTML+=`<div title="${label}: ${count}/3 wins" class="pb-dot" style="background:${color}"></div>`;
+    }
+    const label=document.createElement('span');
+    label.style.cssText='font-size:10px;color:var(--muted);margin-left:6px';
+    label.textContent='← 7 días';
+    dots.appendChild(label);
+  }
+}
+renderProgressBoard();
+// Re-render when pillars change
+document.querySelectorAll('.pillar-card').forEach(el=>{el.addEventListener('click',()=>setTimeout(renderProgressBoard,50));});
+
+/* ══ RUEDA DE LA VIDA ════════════════════════════════════ */
+const RUEDA_AREAS=['Salud','Finanzas','Carrera','Amor','Familia','Diversión','Crecimiento','Entorno','Espiritual','Creatividad'];
+const RUEDA_N=RUEDA_AREAS.length;
+const RCX=250,RCY=250,RR=180;
+
+function getRuedaScores(){try{return JSON.parse(load('rueda_scores','null'))||RUEDA_AREAS.map(()=>5);}catch(_){return RUEDA_AREAS.map(()=>5);}}
+function saveRuedaScores(arr){store('rueda_scores',JSON.stringify(arr));}
+function ruedaAngle(i){return(i/RUEDA_N)*Math.PI*2-Math.PI/2;}
+function ruedaPoint(i,val){const a=ruedaAngle(i);const r=(val/10)*RR;return[RCX+r*Math.cos(a),RCY+r*Math.sin(a)];}
+function ruedaEdge(i){const a=ruedaAngle(i);return[RCX+RR*Math.cos(a),RCY+RR*Math.sin(a)];}
+
+function drawRueda(){
+  const svg=document.getElementById('ruedaSvg');
+  if(!svg)return;
+  const scores=getRuedaScores();
+  let html='';
+  // Background rings
+  [2,4,6,8,10].forEach(v=>{
+    const pts=RUEDA_AREAS.map((_,i)=>ruedaPoint(i,v).join(',')).join(' ');
+    html+=`<polygon points="${pts}" fill="none" stroke="var(--border2)" stroke-width="${v===10?1.5:.7}" opacity="${v===10?.8:.4}"/>`;
+  });
+  // Axes
+  RUEDA_AREAS.forEach((_,i)=>{
+    const[ex,ey]=ruedaEdge(i);
+    html+=`<line x1="${RCX}" y1="${RCY}" x2="${ex}" y2="${ey}" stroke="var(--border2)" stroke-width=".8" opacity=".6"/>`;
+    // Label
+    const a=ruedaAngle(i);
+    const lx=RCX+(RR+22)*Math.cos(a);
+    const ly=RCY+(RR+22)*Math.sin(a);
+    const anchor=lx<RCX-5?'end':lx>RCX+5?'start':'middle';
+    html+=`<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" font-family="Inter,sans-serif" font-size="11" fill="var(--muted2)" font-weight="500">${RUEDA_AREAS[i]}</text>`;
+  });
+  // Score polygon
+  const polyPts=scores.map((v,i)=>ruedaPoint(i,v).join(',')).join(' ');
+  html+=`<polygon points="${polyPts}" fill="rgba(124,92,246,.25)" stroke="var(--accent2)" stroke-width="2" stroke-linejoin="round"/>`;
+  // Score dots
+  scores.forEach((v,i)=>{
+    const[px,py]=ruedaPoint(i,v);
+    html+=`<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="var(--accent2)" stroke="var(--surface)" stroke-width="1.5"/>`;
+    html+=`<text x="${px.toFixed(1)}" y="${(py-10).toFixed(1)}" text-anchor="middle" font-family="Sora,sans-serif" font-size="10" font-weight="700" fill="var(--accent2)">${v}</text>`;
+  });
+  svg.innerHTML=html;
+}
+
+function buildRuedaSliders(){
+  const container=document.getElementById('ruedaSliders');
+  if(!container)return;
+  const scores=getRuedaScores();
+  container.innerHTML='';
+  RUEDA_AREAS.forEach((area,i)=>{
+    const row=document.createElement('div');
+    row.className='rueda-slider-row';
+    row.innerHTML=`<span class="rueda-slider-label">${area}</span><input type="range" class="rueda-slider" min="0" max="10" step="1" value="${scores[i]}" data-ridx="${i}"><span class="rueda-slider-val" id="ruedaVal${i}">${scores[i]}</span>`;
+    container.appendChild(row);
+  });
+  container.querySelectorAll('.rueda-slider').forEach(sl=>{
+    sl.addEventListener('input',()=>{
+      const idx=+sl.dataset.ridx;
+      const s=getRuedaScores();
+      s[idx]=+sl.value;
+      saveRuedaScores(s);
+      const vEl=document.getElementById('ruedaVal'+idx);
+      if(vEl)vEl.textContent=sl.value;
+      drawRueda();
+    });
+  });
+}
+buildRuedaSliders();
+drawRueda();
+
+/* ══ CONFIG SECTION ══════════════════════════════════════ */
+function initConfigSection(){
+  // Income
+  const inc=getIncomeConfig();
+  const salEl=document.getElementById('cfgSalario');
+  const papaEl=document.getElementById('cfgPapa');
+  const otrosEl=document.getElementById('cfgOtros');
+  if(salEl)salEl.value=inc.salario;
+  if(papaEl)papaEl.value=inc.papa;
+  if(otrosEl)otrosEl.value=inc.otros;
+
+  document.getElementById('saveIncomeBtn').addEventListener('click',()=>{
+    const newInc={salario:+salEl.value||0,papa:+papaEl.value||0,otros:+otrosEl.value||0};
+    fStore('income_config',JSON.stringify(newInc));
+    renderFinKpis();
+    showToast('Ingresos guardados ✓','success');
+  });
+
+  // Debts table
+  function renderCfgDebts(){
+    const DEBTS=getDebtsConfig();
+    const tbody=document.getElementById('cfgDebtBody');
+    tbody.innerHTML='';
+    DEBTS.forEach((d,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td><input class="config-input" value="${d.name}" data-df="name" data-di="${i}"></td><td><input class="config-input" type="number" value="${d.saldo}" data-df="saldo" data-di="${i}"></td><td><input class="config-input" value="${d.rate}" data-df="rate" data-di="${i}"></td><td><input class="config-input" type="number" value="${d.cuota}" data-df="cuota" data-di="${i}"></td><td><input class="config-input" value="${d.color}" data-df="color" data-di="${i}" style="width:70px"></td><td><button class="config-del-btn" data-ddi="${i}">✕</button></td>`;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('.config-del-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{const arr=getDebtsConfig();arr.splice(+btn.dataset.ddi,1);fStore('debts_config',JSON.stringify(arr));renderCfgDebts();});
+    });
+  }
+  renderCfgDebts();
+
+  document.getElementById('addDebtRowBtn').addEventListener('click',()=>{
+    const arr=getDebtsConfig();
+    arr.push({name:'Nueva deuda',rate:'25%',cuota:0,saldo:0,color:'#888'});
+    fStore('debts_config',JSON.stringify(arr));
+    renderCfgDebts();
+  });
+
+  document.getElementById('saveDebtsBtn').addEventListener('click',()=>{
+    const rows=document.querySelectorAll('#cfgDebtBody tr');
+    const arr=[];
+    rows.forEach(tr=>{
+      const get=f=>tr.querySelector(`[data-df="${f}"]`).value;
+      arr.push({name:get('name'),rate:get('rate'),cuota:+get('cuota'),saldo:+get('saldo'),color:get('color')});
+    });
+    fStore('debts_config',JSON.stringify(arr));
+    renderDebts();
+    renderFinKpis();
+    showToast('Deudas guardadas ✓','success');
+  });
+
+  // Fixed table
+  function renderCfgFixed(){
+    const FIXED=getFixedConfig();
+    const tbody=document.getElementById('cfgFixedBody');
+    tbody.innerHTML='';
+    FIXED.forEach((f,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td><input class="config-input" value="${f.name}" data-ff="name" data-fi="${i}"></td><td><input class="config-input" value="${f.day}" data-ff="day" data-fi="${i}" style="width:80px"></td><td><input class="config-input" type="number" value="${f.amt}" data-ff="amt" data-fi="${i}"></td><td><button class="config-del-btn" data-fdi="${i}">✕</button></td>`;
+      tbody.appendChild(tr);
+    });
+    tbody.querySelectorAll('.config-del-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{const arr=getFixedConfig();arr.splice(+btn.dataset.fdi,1);fStore('fixed_config',JSON.stringify(arr));renderCfgFixed();});
+    });
+  }
+  renderCfgFixed();
+
+  document.getElementById('addFixedRowBtn').addEventListener('click',()=>{
+    const arr=getFixedConfig();
+    arr.push({name:'Nuevo gasto',day:'1',amt:0});
+    fStore('fixed_config',JSON.stringify(arr));
+    renderCfgFixed();
+  });
+
+  document.getElementById('saveFixedBtn').addEventListener('click',()=>{
+    const rows=document.querySelectorAll('#cfgFixedBody tr');
+    const arr=[];
+    rows.forEach(tr=>{
+      const get=f=>tr.querySelector(`[data-ff="${f}"]`).value;
+      arr.push({name:get('name'),day:get('day'),amt:+get('amt')});
+    });
+    fStore('fixed_config',JSON.stringify(arr));
+    renderFixed();
+    renderFinKpis();
+    showToast('Gastos fijos guardados ✓','success');
+  });
+}
+initConfigSection();
 
 /* ── SYNC FINANZAS ── */
 document.getElementById('syncFinanzasBtn').addEventListener('click',async()=>{
